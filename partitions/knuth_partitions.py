@@ -3,6 +3,8 @@
 Generate and manipulate partitions of integers into sums of integers.
 
 D. Eppstein, August 2005.
+
+The algorithm is here: https://www.ics.uci.edu/~eppstein/PADS/IntegerPartitions.py
 """
 
 import unittest
