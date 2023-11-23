@@ -2,9 +2,8 @@
 
     \usepackage[breakable]{tcolorbox}
     \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
-    
+
     \usepackage{polyglossia}
-    % \setmainlanguage{portuguese}
     \setmainlanguage[variant=brazilian]{portuguese}
     
 
@@ -387,8 +386,12 @@
 
 \begin{document}
     
+%    \maketitle
 \input{info.tex}
+    
+    
 
+    
     \hypertarget{introduuxe7uxe3o-e-motivauxe7uxe3o}{%
 \section{Introdução e
 Motivação}\label{introduuxe7uxe3o-e-motivauxe7uxe3o}}
@@ -633,7 +636,7 @@ translação na esfera. Consequentemente
 \[ \tag{3.12} \boxed{g_{t \theta} = g_{t \phi} = 0}\; . \]
 
     Para simplificar a nossa análise, vamos escrever
-\[ \tag{3.13} g_{tt} = A_1(t,r)\qquad g_{rr} = A_2(t,r) \qquad g_{tr} = A_3(t,r) \qquad g_{\theta \theta} = r^2 A_4(t,r)\]
+\[ \tag{3.13} g_{tt} = A_1(t,r)\qquad g_{rr} = A_2(t,r) \qquad g_{tr} = A_4(t,r) \qquad g_{\theta \theta} = r^2 A_3(t,r)\]
 
 Portanto escreveremos nossa métrica com índices na forma
 \[ \tag{3.14} g = 
@@ -647,7 +650,7 @@ A_4 & A_2 & 0 & 0 \\
 Além disso, não queremos que a assinatura da métrica mude, ou seja,
 queremos que ela permaneça Lorentziana \(A_1<0\) e \(A_2, A_3>0\),
 enquanto que \(A_4\) não precisa ser especificada (ainda). Com isso, o
-elemento de linha é escrito como
+nosso ansätz é escrito como
 \[ \tag{3.15} ds^2 = A_1 dt^2 + 2 A_4 dt dr + A_2 dr^2 + A_3 r^2 d \Omega^2  \]
 e nos vamos considerar que a velocidade da luz \(c\) foi absorvida pela
 função \(A_1\). Abaixo reintroduziremos essa constante novamente.
@@ -805,10 +808,9 @@ A prova desse teorema é avançada para o nosso presente estudo, mas pode
 ser encontrada com detalhes no livro Gravitation do
 Mister-Thorn-Wheeler, seção 32.2.
 
-    \hypertarget{leitura-extra-primeiro-encontro-com-os-buracos-negros-singularidade-e-horizonte-de-eventos}{%
-\section{Leitura Extra: Primeiro encontro com os buracos negros:
-Singularidade e Horizonte de
-Eventos}\label{leitura-extra-primeiro-encontro-com-os-buracos-negros-singularidade-e-horizonte-de-eventos}}
+    \hypertarget{leitura-extra-primeiro-encontro-com-os-buracos-negros}{%
+\section{LEITURA EXTRA: Primeiro encontro com os buracos
+negros}\label{leitura-extra-primeiro-encontro-com-os-buracos-negros}}
 
     Concluímos que a metrica é dada por
 
@@ -1004,9 +1006,9 @@ de Schwarzschild. Onde se encontra o Horizonte de Eventos?
 
 \appendix
 
-    \hypertarget{apuxeandice-a-resolvendo-a-equauxe7uxe3o-de-einstein-com-o-python}{%
+    \hypertarget{resolvendo-a-equauxe7uxe3o-de-einstein-com-o-python}{%
 \section{Resolvendo a Equação de Einstein com o
-Python}\label{apuxeandice-a-resolvendo-a-equauxe7uxe3o-de-einstein-com-o-python}}
+Python}\label{resolvendo-a-equauxe7uxe3o-de-einstein-com-o-python}}
 
     Vamos agora resolver a solução de Einstein passo a passo usando o ansätz
 dado na expressão (3).
@@ -1490,8 +1492,9 @@ onde \(c_0\) é uma constante que escolhemos como zero.
 
     
 
-    \hypertarget{apuxeandice-b-soluuxe7uxf5es-de-sitter-schwarzschild}{%
-\section{Soluções De Sitter-Schwarzschild}\label{apuxeandice-b-soluuxe7uxf5es-de-sitter-schwarzschild}}
+    \hypertarget{soluuxe7uxf5es-de-sitter-schwarzschild}{%
+\section{Soluções De
+Sitter-Schwarzschild}\label{soluuxe7uxf5es-de-sitter-schwarzschild}}
 
     Com as soluções acima, podemos modificar um pouco nossas hipóteses e
 estudar outras duas soluções muito importantes. A primeira é fundamental
