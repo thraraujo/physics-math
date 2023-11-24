@@ -3,8 +3,7 @@
     \usepackage[breakable]{tcolorbox}
     \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
 
-    \usepackage{polyglossia}
-    \setmainlanguage[variant=brazilian]{portuguese}
+    \input{polyglosia.tex}
     
 
     % Basic figure setup, for now with no caption control since it's done
@@ -386,8 +385,7 @@
 
 \begin{document}
     
-%    \maketitle
-\input{info.tex}
+    \input{info.tex}
     
     
 
@@ -742,27 +740,36 @@ estudar o caso onde a constante cosmológica é diferente de zero.
 
     Para a solução (3.24), temos 5 componentes não nulas no tensor de Ricci,
 são elas
-\[\tag{4.2} R_{tt}\quad R_{tr}\quad R_{rr}\quad R_{\theta\theta} \quad R_{\phi\phi}\]
+\[\tag{4.2} R_{tt}\qquad R_{tr}\qquad R_{rr}\qquad R_{\theta\theta} \qquad R_{\phi\phi} = \sin^2\theta R_{\theta\theta}\]
 
-    \(\clubsuit\) \textbf{1.} A equação \(R_{tr} = 0\) implica
+    \(\spadesuit\) \textbf{1.} A equação \(R_{tr} = 0\) é dada por
 \[\tag{4.3} \frac{1}{r}\frac{\partial \gamma_2}{\partial t} = 0 \qquad \Rightarrow \qquad \gamma_2=f_2(r)\]
 ou seja, a função \(f_2\) não depende do tempo.
 
-    \(\spadesuit\) \textbf{2.} Em seguida tomamos a derivada temporal de
+    \(\spadesuit\) \textbf{2} Nesse ponto, podemos tomar \(f_2 = f_2(r)\) e
+escrever as equações de Einstein
+
+\begin{align*}
+R_{tt} & = \frac{e^{f_1 - f_2}}{r}\left[\partial_r f_1 + \frac{1}{4}\left( (\partial_r f_1)^2 - \partial_r f_1 \partial_r f_2 +2 \partial^2_r f_1 \right) \right] = 0 \\
+\tag{4.4} R_{rr} & = \partial_r f_2 + \frac{1}{4}\left( -(\partial_r f_1)^2 + \partial_r f_1 \partial_r f_2 - 2 \partial^2_r f_1 \right) = 0 \\
+R_{\theta \theta} & = \frac{e^{-f_2}}{2}\left( - r \partial_r f_1 + r \partial_r f_2 + 2 e^{f_2} - 2 \right) = 0
+\end{align*}
+
+    \(\spadesuit\) \textbf{3.} Em seguida tomamos a derivada temporal de
 \(R_{\theta\theta} = 0\). Isso implica a relação
-\[\tag{4.4} \frac{r e^{-\gamma_2}}{2}\frac{\partial^2 \gamma_1}{\partial r \partial t} = 0 \qquad \Rightarrow \qquad \gamma_1(r,t)=f_1(r) + 2g_1(t)\]
+\[\tag{4.5} -\partial_t R_{\theta\theta} = \frac{r e^{-\gamma_2}}{2}\frac{\partial^2 \gamma_1}{\partial r \partial t} = 0 \qquad \Rightarrow \qquad \gamma_1(r,t)=f_1(r) + 2g_1(t)\]
 onde o coeficiente \(2\) é mera conveniência. Assim, a métrica se torna
-\[ \tag{4.5} ds^2 = - e^{f_1} c^2 (e^{g_1(t)}dt)^2 + e^{f_2}dr^2 + r^2 (d\theta^2 + \sin^2\theta d\phi^2)\; .\]
+\[ \tag{4.6} ds^2 = - e^{f_1} c^2 (e^{g_1(t)}dt)^2 + e^{f_2}dr^2 + r^2 (d\theta^2 + \sin^2\theta d\phi^2)\; .\]
 
 Observe, no entando, que podemos voltar à nossas transformações gerais
-de coordenadas (3.16.a), e nos preparar para a expressão (4.5), de tal
-forma que \(dt' = e^{g_1(t)}dt\) é a nossa coordenada temporal. Observe
-que não estamos usando uma nova transformação de coordenadas, estamos
-apenas melhorando a transformação (3.16.a) para que ela remova esse
-termo.
+de coordenadas (3.16.a), e adiantar para remover o termo inconveniente
+na metrica (4.6), de tal forma que \(dt' = e^{g_1(t)}dt\) é a nossa
+coordenada temporal. Observe que não estamos usando uma nova
+transformação de coordenadas, estamos apenas melhorando a transformação
+(3.16.a) para que ela remova esse termo.
 
 Finalmente, temos que
-\[ \tag{4.6} ds^2 = - e^{f_1} c^2 dt^2 + e^{f_2}dr^2 + r^2 (d\theta^2 + \sin^2\theta d\phi^2)\; ,\]
+\[ \tag{4.7} ds^2 = - e^{f_1} c^2 dt^2 + e^{f_2}dr^2 + r^2 (d\theta^2 + \sin^2\theta d\phi^2)\; ,\]
 onde agora, todas as componentes da métrica são independentes do tempo,
 e é dita \emph{estacionária}. Mas não apenas isso, essa métrica é também
 \emph{estática}.
@@ -775,19 +782,21 @@ Uma métrica é estática se ela permanece igual se consideramos inversão
 temporal \(t\mapsto -t\), e isso significa que métricas estáticas não
 podem ter termos cruzados \(g_{t\mu}\) na métrica.
 
-    \(\clubsuit\) \textbf{3.} Usando agora (4.6), temos que
-\[\tag{4.7} 0 = e^{-f_1 + f_2}R_{tt} + R_{rr} = \frac{d}{dr}(f_1 + f_2)\qquad \Rightarrow \qquad  f_2 = -f_1 + c_0 \]
+    \(\spadesuit\) \textbf{4.} Usando agora (4.4), observe que a estrutura
+de \(R_tt\) e \(R_{rr}\), são bastante semelhantes. Portanto, temos
+\[\tag{4.7} 0 = r(e^{-f_1 + f_2}R_{tt} + R_{rr}) = \frac{d}{dr}(f_1 + f_2)\qquad \Rightarrow \qquad  f_2 = -f_1 + c_0 \]
 onde \(c_0\) é uma constante que tomamos, sem nenhuma perda de
 generalidade, como zero.
 
-    \(\spadesuit\) \textbf{4.} Finalmente, temos que
+    \(\spadesuit\) \textbf{5.} Finalmente, já sabemos que
 \[ \tag{4.8} R_{\phi\phi} = \sin^2 \theta R_{\theta\theta}\] de forma
 que nos resta apenas uma equações de Einstein para nos preocuparmos, que
-é \[ \tag{4.9} r e^{f_1} \frac{d f_1}{dr}  + e^{f_1} - 1 = 0  \]
+é
+\[ \tag{4.9} r e^{f_1} \frac{d f_1}{dr}  + e^{f_1} - 1 = 0 \qquad \Rightarrow \qquad \frac{r e^{f_1}}{dr} = 1  \]
 
     E é simples verificar que a solução para essa equação diferencial é
 
-\[ \tag{4.10} e^{f_1} = 1 + \frac{c_0}{r} \]
+\[ \tag{4.10} r e^{f_1} = r + c_0 \qquad \Rightarrow \qquad  e^{f_1} = 1 + \frac{c_0}{r} \]
 
 No exercício 2 na lista abaixo, o leitor deve provar que
 
@@ -956,7 +965,10 @@ Tolman--Oppenheimer--Volkoff.
     \hypertarget{exercuxedcios}{%
 \section{Exercícios}\label{exercuxedcios}}
 
-    \textbf{\# 1.} Usando as coordenadas esféricas
+    Os problemas marcados com uma estrela são muito importantes e devem ser
+respondidos.
+
+\textbf{Problema 1.} Usando as coordenadas esféricas
 \[ x_1 = \sin\theta \cos\phi\quad 
 x_2 = \sin\theta \sin\phi\quad  
 x_3 = \cos\theta\] prove que a métrica no espaço Euclidiano em 3D é dada
@@ -964,8 +976,8 @@ por \[ ds^2_{Euc} = dr^2 + r^2 d\Omega^2 \] onde a métrica da esfera
 unitária \(\mathbb{S}^2\) é
 \[ d\Omega^2 = d\theta^2 + \sin^2 \theta d\phi^2 \]
 
-\(\star\) \textbf{\# 2.} Usando a métrica da esfera unitária, mostre que
-os vetores de Killing da esfera \(\mathbb{S}^2\) são \[ 
+\textbf{Problema 2.} Usando a métrica da esfera unitária, mostre que os
+vetores de Killing da esfera \(\mathbb{S}^2\) são \[ 
 \xi^{(1)} = \sin\phi \partial_\theta + \cot\theta\cos\phi \partial_\phi\quad 
 \xi^{(2)} = \cos\phi \partial_\theta - \cot\theta\sin\phi \partial_\phi \quad
 \xi^{(3)} = \partial_\phi
@@ -975,11 +987,15 @@ de Lie \(SO(3)\). Sabendo que a solução de Schwarzschild tem 4 vetores
 de Killing, use esse resultado e escreva todos os campos vetoriais de
 Killing explicitamente.
 
-\(\star\) \textbf{\# 3.} Vimos na primeira parte desse curso que no
-limite Newtoniano, o potencial gravitacional é relacionado à componente
-\(g_{00}\) por \(g_{00} = -\left(1 + 2\frac{\phi}{c^2}\right)\). Repita
-o argumento que fizemos na primeira parte desse curso, reconsiderando
-uma partícula livre numa geometria definida pela métrica
+\(\star\) \textbf{Problema 3.} Usando as equações de Einstein (4.4),
+prove as relações (4.5), (4.7) e (4.10).
+
+\(\star\) \textbf{Problema 4.} Vimos na primeira parte desse curso que
+no limite Newtoniano, o potencial gravitacional é relacionado à
+componente \(g_{00}\) por
+\(g_{00} = -\left(1 + 2\frac{\phi}{c^2}\right)\). Repita o argumento que
+fizemos na primeira parte desse curso, reconsiderando uma partícula
+livre numa geometria definida pela métrica
 \[ ds^2 = -\left(1 + \frac{c_0}{r}\right) c^2 dt^2 + \frac{dr^2}{\left(1 + \frac{c_0}{r}\right)} + r^2 d\Omega_2^2 \]
 
 De fato, estudando a equação da geodésica para a solução de
@@ -992,7 +1008,8 @@ Gauss gravitacional
 use os mesmos argumentos do eletromagnetismo para justificar o resultado
 \[ c_0 = - \frac{2GM}{c^2} \]
 
-\textbf{\# 4.} Alternativamente, podemos buscar uma solução na forma
+\textbf{Problema 5.} Alternativamente, podemos buscar uma solução na
+forma
 \[ ds^2 = - a(\rho)^2 c^2 dt^2 + b(\rho)^2 (d\rho^2 + \rho^2(d\theta^2 + \sin^2\theta d\phi^2)) \]
 onde \(\rho=\rho(r)\) é uma nova direção radial. Essas soluções são
 chamadas de \emph{isotrópicas}, e para \(t=constante\), o espaço-tempo
@@ -1030,23 +1047,23 @@ dado na expressão (3).
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{2}{\boxspacing}
+\prompt{In}{incolor}{3}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} PARÂMETROS }
 \PY{c+c1}{\PYZsh{} Massa M, constante de Newton G, velocidade da luz c, constante cosmológica Lb, tempo t, raio r, angulo polar theta th, azimuth phi ph }
 \PY{n}{M}\PY{p}{,} \PY{n}{G}\PY{p}{,} \PY{n}{c}\PY{p}{,} \PY{n}{Lb}\PY{p}{,} \PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{th}\PY{p}{,} \PY{n}{ph} \PY{o}{=} \PY{n}{symbols}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M G c Lb t r th ph}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{X} \PY{o}{=} \PY{p}{[}\PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{th}\PY{p}{,} \PY{n}{ph}\PY{p}{]}
 \PY{c+c1}{\PYZsh{} Também definimos as funções f1 e f2 que usamos no ansätz para a solução de Schwarzschild}
-\PY{c+c1}{\PYZsh{}f1 = Function(\PYZsq{}f1\PYZsq{})(\PYZsq{}r\PYZsq{}) }
-\PY{c+c1}{\PYZsh{}f2 = Function(\PYZsq{}f2\PYZsq{})(\PYZsq{}r\PYZsq{}) }
+\PY{n}{f1} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+\PY{n}{f2} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
 
 \PY{c+c1}{\PYZsh{} Para verificar as soluções explícitas, use}
 \PY{c+c1}{\PYZsh{} SCHWARZSCHILD: }
 \PY{c+c1}{\PYZsh{}f1 = ln(1 \PYZhy{} 2*G*M / (r*c**2)) }
 \PY{c+c1}{\PYZsh{}f2 = \PYZhy{} f1}
 \PY{c+c1}{\PYZsh{} De Sitter: }
-\PY{n}{f1} \PY{o}{=} \PY{n}{ln}\PY{p}{(}\PY{l+m+mi}{1} \PY{o}{\PYZhy{}} \PY{l+m+mi}{2}\PY{o}{*}\PY{n}{G}\PY{o}{*}\PY{n}{M} \PY{o}{/} \PY{p}{(}\PY{n}{r}\PY{o}{*}\PY{n}{c}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{Lb} \PY{o}{*} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}  \PY{o}{/} \PY{l+m+mi}{3}\PY{p}{)}
-\PY{n}{f2} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{f1} 
+\PY{c+c1}{\PYZsh{}f1 = ln(1 \PYZhy{} 2*G*M / (r*c**2) \PYZhy{} Lb * r**2  / 3)}
+\PY{c+c1}{\PYZsh{}f2 = \PYZhy{}f1 }
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -1054,7 +1071,7 @@ dado na expressão (3).
 \subsection{Métrica}\label{muxe9trica}}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{3}{\boxspacing}
+\prompt{In}{incolor}{4}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Aqui vamos definir a métrica. Inicialmente preenchemos todas as entradas com zeros, e depois definimos as componentes não nulas. }
 \PY{n}{g} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)} 
@@ -1074,10 +1091,12 @@ dado na expressão (3).
     Esses objetos são as componentes da conexão de Levi-Civita dadas
 explicitamente por:
 
-\[\tag{7.1} \Gamma^\rho_{\mu\nu} = \frac{1}{2} g^{\rho\sigma} \left( \partial_\mu g_{\sigma\nu} + \partial_\sigma g_{\mu\nu} - \partial_\sigma g_{\mu\nu} \right) \]
+\begin{equation}
+\Gamma^\rho_{\mu\nu} = \frac{1}{2} g^{\rho\sigma} \left( \partial_\mu g_{\sigma\nu} + \partial_\sigma g_{\mu\nu} - \partial_\sigma g_{\mu\nu} \right)
+\end{equation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{4}{\boxspacing}
+\prompt{In}{incolor}{5}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} k denota os indices contravariantes (no andar de cima), ao passo que i e j denotam os indices covariantes (no andar de baixo).}
 \PY{k}{def} \PY{n+nf}{Gamma}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}\PY{p}{:}
@@ -1094,7 +1113,7 @@ explicitamente por:
 rotulados com o indice k = 0, 1, 2, 3, de tal forma que:
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{5}{\boxspacing}
+\prompt{In}{incolor}{6}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Primeiro construímos 4 matrizes com todas as componentes nulas}
 \PY{n}{ChSymb0} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
@@ -1106,7 +1125,7 @@ rotulados com o indice k = 0, 1, 2, 3, de tal forma que:
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{6}{\boxspacing}
+\prompt{In}{incolor}{7}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Agora preenchemos essas matrizes com as componentes não nulas para o ansätz dado em (3)}
 \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
@@ -1118,7 +1137,7 @@ rotulados com o indice k = 0, 1, 2, 3, de tal forma que:
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{7}{\boxspacing}
+\prompt{In}{incolor}{24}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Para ver o resultado explícito, fazemos}
 \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{ChSymb}\PY{p}{)}\PY{p}{)}\PY{p}{:}
@@ -1140,7 +1159,7 @@ rotulados com o indice k = 0, 1, 2, 3, de tal forma que:
 +++++++++ Christoffel(1) ++++++++++++++++
     \end{Verbatim}
 
-    $\displaystyle \left[\begin{matrix}\frac{e^{f_{1}{\left(r \right)}} e^{- f_{2}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & \frac{\frac{d}{d r} f_{2}{\left(r \right)}}{2} & 0 & 0\\0 & 0 & - r e^{- f_{2}{\left(r \right)}} & 0\\0 & 0 & 0 & - r e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)}\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}\frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & - \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0\\0 & 0 & - r e^{f_{1}{\left(r \right)}} & 0\\0 & 0 & 0 & - r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)}\end{matrix}\right]$
 
     
     \begin{Verbatim}[commandchars=\\\{\}]
@@ -1169,10 +1188,12 @@ rotulados com o indice k = 0, 1, 2, 3, de tal forma que:
     De posse dos simbolos de Christoffel, podemos encontrar o tensor de
 Riemann pela expressão
 
-\[\tag{7.2} R^{\lambda}_{\rho \mu \nu} = \partial_\mu \Gamma^{\lambda}_{\nu \rho} - \partial_\lambda \Gamma^\nu_{\rho \mu} + \Gamma^\lambda_{\mu\sigma}\Gamma^\sigma_{\rho\nu} -  \Gamma^\lambda_{\nu \sigma}\Gamma^\sigma_{\rho\mu} \]
+\begin{equation}
+R^{\lambda}_{\rho \mu \nu} = \partial_\mu \Gamma^{\lambda}_{\nu \rho} - \partial_\lambda \Gamma^\nu_{\rho \mu} + \Gamma^\lambda_{\mu\sigma}\Gamma^\sigma_{\rho\nu} -  \Gamma^\lambda_{\nu \sigma}\Gamma^\sigma_{\rho\mu}
+\end{equation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{7}{\boxspacing}
+\prompt{In}{incolor}{8}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} l é contravariante; k,i,j são covariantes}
 \PY{c+c1}{\PYZsh{} Aqui vamos definir a constração do produto de dois simbolos de Christoffel. Ou seja, os dois últimos termos na equação (5)}
@@ -1187,7 +1208,7 @@ Riemann pela expressão
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{8}{\boxspacing}
+\prompt{In}{incolor}{9}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Agora calculamos as componentes do tensor de Riemann propriamente ditas. }
 \PY{k}{def} \PY{n+nf}{Riem}\PY{p}{(}\PY{n}{l}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}\PY{p}{:}
@@ -1206,7 +1227,7 @@ organizar esses resultados em termos de matrizes
 \((R^\lambda_\rho)_{\mu\nu}\)
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{9}{\boxspacing}
+\prompt{In}{incolor}{10}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Mais uma vez, definimos as matrizes e preenchemos com zeros. }
 \PY{n}{RieTen00} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen01} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen02} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen03} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
@@ -1222,7 +1243,7 @@ organizar esses resultados em termos de matrizes
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{10}{\boxspacing}
+\prompt{In}{incolor}{11}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} E agora podemos preencher as componentes não nulas nas matrizes acima}
 \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
@@ -1239,7 +1260,7 @@ organizar esses resultados em termos de matrizes
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{12}{\boxspacing}
+\prompt{In}{incolor}{29}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Para ver o resultado explícito, fazemos}
 \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
@@ -1251,46 +1272,46 @@ organizar esses resultados em termos de matrizes
     $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
 
     
-    $\displaystyle \left[\begin{matrix}0 & - \frac{\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2}}{4} + \frac{\frac{d}{d r} f_{1}{\left(r \right)} \frac{d}{d r} f_{2}{\left(r \right)}}{4} - \frac{\frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}}{2} & 0 & 0\\\frac{\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2}}{4} - \frac{\frac{d}{d r} f_{1}{\left(r \right)} \frac{d}{d r} f_{2}{\left(r \right)}}{4} + \frac{\frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}0 & - \frac{\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2}}{2} - \frac{\frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}}{2} & 0 & 0\\\frac{\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2}}{2} + \frac{\frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
 
     
-    $\displaystyle \left[\begin{matrix}0 & 0 & - \frac{r e^{- f_{2}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0\\0 & 0 & 0 & 0\\\frac{r e^{- f_{2}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}0 & 0 & - \frac{r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0\\0 & 0 & 0 & 0\\\frac{r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
 
     
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & - \frac{r e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2}\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\\frac{r e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & - \frac{r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2}\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\\frac{r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\end{matrix}\right]$
 
     
-    $\displaystyle \left[\begin{matrix}0 & \frac{\left(- \left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} + \frac{d}{d r} f_{1}{\left(r \right)} \frac{d}{d r} f_{2}{\left(r \right)} - 2 \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right) e^{f_{1}{\left(r \right)} - f_{2}{\left(r \right)}}}{4} & 0 & 0\\\frac{\left(\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} - \frac{d}{d r} f_{1}{\left(r \right)} \frac{d}{d r} f_{2}{\left(r \right)} + 2 \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right) e^{f_{1}{\left(r \right)} - f_{2}{\left(r \right)}}}{4} & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
-
-    
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
-
-    
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & \frac{r e^{- f_{2}{\left(r \right)}} \frac{d}{d r} f_{2}{\left(r \right)}}{2} & 0\\0 & - \frac{r e^{- f_{2}{\left(r \right)}} \frac{d}{d r} f_{2}{\left(r \right)}}{2} & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
-
-    
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & \frac{r e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{2}{\left(r \right)}}{2}\\0 & 0 & 0 & 0\\0 & - \frac{r e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{2}{\left(r \right)}}{2} & 0 & 0\end{matrix}\right]$
-
-    
-    $\displaystyle \left[\begin{matrix}0 & 0 & - \frac{e^{f_{1}{\left(r \right)} - f_{2}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0\\0 & 0 & 0 & 0\\\frac{e^{f_{1}{\left(r \right)} - f_{2}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
-
-    
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & - \frac{\frac{d}{d r} f_{2}{\left(r \right)}}{2 r} & 0\\0 & \frac{\frac{d}{d r} f_{2}{\left(r \right)}}{2 r} & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}0 & \frac{\left(- \left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} - \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right) e^{2 f_{1}{\left(r \right)}}}{2} & 0 & 0\\\frac{\left(\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} + \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right) e^{2 f_{1}{\left(r \right)}}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
 
     
     $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
 
     
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & \left(e^{f_{2}{\left(r \right)}} - 1\right) e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)}\\0 & 0 & \left(1 - e^{f_{2}{\left(r \right)}}\right) e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)} & 0\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & - \frac{r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0\\0 & \frac{r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
 
     
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & - \frac{e^{f_{1}{\left(r \right)} - f_{2}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r}\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\\frac{e^{f_{1}{\left(r \right)} - f_{2}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0 & 0\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & - \frac{r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2}\\0 & 0 & 0 & 0\\0 & \frac{r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0\end{matrix}\right]$
 
     
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & - \frac{\frac{d}{d r} f_{2}{\left(r \right)}}{2 r}\\0 & 0 & 0 & 0\\0 & \frac{\frac{d}{d r} f_{2}{\left(r \right)}}{2 r} & 0 & 0\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}0 & 0 & - \frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0\\0 & 0 & 0 & 0\\\frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
 
     
-    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & -1 + e^{- f_{2}{\left(r \right)}}\\0 & 0 & 1 - e^{- f_{2}{\left(r \right)}} & 0\end{matrix}\right]$
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0\\0 & - \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & \left(1 - e^{f_{1}{\left(r \right)}}\right) \sin^{2}{\left(th \right)}\\0 & 0 & \left(e^{f_{1}{\left(r \right)}} - 1\right) \sin^{2}{\left(th \right)} & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & - \frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r}\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\\frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2 r}\\0 & 0 & 0 & 0\\0 & - \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & e^{f_{1}{\left(r \right)}} - 1\\0 & 0 & 1 - e^{f_{1}{\left(r \right)}} & 0\end{matrix}\right]$
 
     
     $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
@@ -1299,11 +1320,12 @@ organizar esses resultados em termos de matrizes
     \hypertarget{tensor-de-ricci}{%
 \subsection{Tensor de Ricci}\label{tensor-de-ricci}}
 
-    Finalmente, podemos calcular o tensor de Ricci como
-\[\tag{7.3} R_{\mu\nu} = R^\rho_{\mu \rho \nu}\]
+    Finalmente, podemos calcular o tensor de Ricci como \begin{equation}
+R_{\mu\nu} = R^\rho_{\mu \rho \nu}
+\end{equation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{11}{\boxspacing}
+\prompt{In}{incolor}{12}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k}{def} \PY{n+nf}{Ricci}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}\PY{p}{:}
     \PY{n}{ricc} \PY{o}{=} \PY{l+m+mi}{0}
@@ -1318,14 +1340,14 @@ organizar esses resultados em termos de matrizes
     Agora vamos organizar esse tensor na forma matricial
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{12}{\boxspacing}
+\prompt{In}{incolor}{13}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{Ric} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{13}{\boxspacing}
+\prompt{In}{incolor}{14}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} E agora podemos preencher as componentes não nulas nas matrizes acima}
 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
@@ -1336,7 +1358,7 @@ organizar esses resultados em termos de matrizes
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{16}{\boxspacing}
+\prompt{In}{incolor}{33}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Para ver o resultado explícito, fazemos}
 \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
@@ -1352,7 +1374,7 @@ organizar esses resultados em termos de matrizes
 +++++++++ Ricci(0,0) ++++++++++++++++
     \end{Verbatim}
 
-    $\displaystyle \frac{\left(\frac{r \left(\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} - \frac{d}{d r} f_{1}{\left(r \right)} \frac{d}{d r} f_{2}{\left(r \right)} + 2 \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right)}{4} + \frac{d}{d r} f_{1}{\left(r \right)}\right) e^{f_{1}{\left(r \right)} - f_{2}{\left(r \right)}}}{r}$
+    $\displaystyle \frac{\left(\frac{r \left(\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} + \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right)}{2} + \frac{d}{d r} f_{1}{\left(r \right)}\right) e^{2 f_{1}{\left(r \right)}}}{r}$
 
     
     \begin{Verbatim}[commandchars=\\\{\}]
@@ -1360,7 +1382,7 @@ organizar esses resultados em termos de matrizes
 +++++++++ Ricci(1,1) ++++++++++++++++
     \end{Verbatim}
 
-    $\displaystyle \frac{\frac{r \left(- \left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} + \frac{d}{d r} f_{1}{\left(r \right)} \frac{d}{d r} f_{2}{\left(r \right)} - 2 \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right)}{4} + \frac{d}{d r} f_{2}{\left(r \right)}}{r}$
+    $\displaystyle \frac{\frac{r \left(- \left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} - \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right)}{2} - \frac{d}{d r} f_{1}{\left(r \right)}}{r}$
 
     
     \begin{Verbatim}[commandchars=\\\{\}]
@@ -1368,7 +1390,7 @@ organizar esses resultados em termos de matrizes
 +++++++++ Ricci(2,2) ++++++++++++++++
     \end{Verbatim}
 
-    $\displaystyle \frac{\left(- r \frac{d}{d r} f_{1}{\left(r \right)} + r \frac{d}{d r} f_{2}{\left(r \right)} + 2 e^{f_{2}{\left(r \right)}} - 2\right) e^{- f_{2}{\left(r \right)}}}{2}$
+    $\displaystyle - r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)} - e^{f_{1}{\left(r \right)}} + 1$
 
     
     \begin{Verbatim}[commandchars=\\\{\}]
@@ -1376,86 +1398,73 @@ organizar esses resultados em termos de matrizes
 +++++++++ Ricci(3,3) ++++++++++++++++
     \end{Verbatim}
 
-    $\displaystyle \frac{\left(- r \frac{d}{d r} f_{1}{\left(r \right)} + r \frac{d}{d r} f_{2}{\left(r \right)} + 2 e^{f_{2}{\left(r \right)}} - 2\right) e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)}}{2}$
+    $\displaystyle \left(- r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)} - e^{f_{1}{\left(r \right)}} + 1\right) \sin^{2}{\left(th \right)}$
 
     
     \begin{Verbatim}[commandchars=\\\{\}]
 
     \end{Verbatim}
 
-    \begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\tightlist
-\item
-  Apenas 3 equações são independentes. É simples verificar que
-  \[\tag{8.2} (R_{33} - \Lambda g_{33}) - sin^2\theta (R_{2,2} - \Lambda g_{22}) = 0 \]
-\end{enumerate}
+    \(\clubsuit\) \textbf{1.} Apenas 3 equações são independentes. É simples
+verificar que \begin{equation}
+R_{33} - sin^2\theta = 0 
+\end{equation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{19}{\boxspacing}
+\prompt{In}{incolor}{15}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{p}{(}\PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{*}\PY{p}{(}\PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
  
             
-\prompt{Out}{outcolor}{19}{}
+\prompt{Out}{outcolor}{15}{}
     
     $\displaystyle 0$
 
     
 
-    \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
-\item
-  As 2 primeiras equações possuem uma estrutura muito semelhante, então
-  faremos a operação a seguir
-\end{enumerate}
+    \(\clubsuit\) \textbf{2.} As 2 primeiras equações possuem uma estrutura
+muito semelhante, então faremos a operação a seguir
 
-\[ \tag{8.3} r e^{-2f_1} (R_{00} - \Lambda g_{00}) + (R_{11} - \Lambda g_{11})  = 0 \]
-
-Exatamente como fizemos como no estudo da solução Schwarzschild.
+\begin{equation}
+r(e^{-f_1 + f_2} R_{00} + R_{11})  = 0
+\end{equation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{20}{\boxspacing}
+\prompt{In}{incolor}{16}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{r}\PY{o}{*}\PY{p}{(}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{f1}\PY{o}{+}\PY{n}{f2}\PY{p}{)}\PY{o}{*}\PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
  
             
-\prompt{Out}{outcolor}{20}{}
+\prompt{Out}{outcolor}{16}{}
     
     $\displaystyle \frac{d}{d r} f_{1}{\left(r \right)} + \frac{d}{d r} f_{2}{\left(r \right)}$
 
     
 
-    de onde concluímos que
-\[  \tag{8.4} f_1 + f_2 = c_0 \quad \Rightarrow \quad f_2 = -f_1  \]
-onde \(c_0\) é uma constante que escolhemos como zero.
+    de onde concluímos que \begin{equation}
+f_1 + f_2 = c_0 \quad \Rightarrow \quad f_2 = -f_1  
+\end{equation} onde \(c_0\) é uma constante que escolhemos como zero.
 
-    \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Agora vamos usar essa condição na equação
-  \[ \tag{8.5} R_{22} - \Lambda g_{22} = 0 \]
-\end{enumerate}
+    \(\clubsuit\) \textbf{3.} Agora vamos usar essa condição na equação
+\begin{equation}
+R_{22}\ = 0
+\end{equation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{22}{\boxspacing}
+\prompt{In}{incolor}{34}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{p}{(}\PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+\PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
  
             
-\prompt{Out}{outcolor}{22}{}
+\prompt{Out}{outcolor}{34}{}
     
-    $\displaystyle \frac{\left(- r \frac{d}{d r} f_{1}{\left(r \right)} + r \frac{d}{d r} f_{2}{\left(r \right)} + 2 e^{f_{2}{\left(r \right)}} - 2\right) e^{- f_{2}{\left(r \right)}}}{2}$
+    $\displaystyle - r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)} - e^{f_{1}{\left(r \right)}} + 1$
 
     
 
@@ -1506,19 +1515,21 @@ assimptoticamente plano, e a constante cosmológica não é nula.
 Toda a análise que fizemos na seção anterios, e na prática, a única
 modificação será na equação de Einstein
 
-\[\tag{8.1} R_{\mu\nu} - \Lambda g_{\mu\nu} = 0 \]
+\begin{equation}
+R_{\mu\nu} - \Lambda g_{\mu\nu} = 0 
+\end{equation}
 
 portanto
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{17}{\boxspacing}
+\prompt{In}{incolor}{15}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{Equation} \PY{o}{=} \PY{p}{[}\PY{p}{(}\PY{n}{Ric}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{Lb}\PY{o}{*}\PY{n}{g}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)} \PY{k}{if} \PY{n}{Ric}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{]}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{18}{\boxspacing}
+\prompt{In}{incolor}{16}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{c+c1}{\PYZsh{} Para ver o resultado explícito, fazemos}
 \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{Equation}\PY{p}{)}\PY{p}{)}\PY{p}{:}
@@ -1563,68 +1574,56 @@ portanto
 
     \end{Verbatim}
 
-    \begin{enumerate}
-\def\labelenumi{\arabic{enumi})}
-\tightlist
-\item
-  Novamente, apenas 3 equações são independentes. É simples verificar
-  que
-  \[\tag{8.2} (R_{33} - \Lambda g_{33}) - sin^2\theta (R_{2,2} - \Lambda g_{22}) = 0 \]
-\end{enumerate}
+    \(\clubsuit\) \textbf{1.} Novamente, apenas 3 equações são
+independentes. É simples verificar que \begin{equation}
+(R_{33} - \Lambda g_{33}) - sin^2\theta (R_{2,2} - \Lambda g_{22}) = 0
+\end{equation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{19}{\boxspacing}
+\prompt{In}{incolor}{17}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{p}{(}\PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{*}\PY{p}{(}\PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
  
             
-\prompt{Out}{outcolor}{19}{}
+\prompt{Out}{outcolor}{17}{}
     
     $\displaystyle 0$
 
     
 
-    \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{1}
-\tightlist
-\item
-  Novamente, as 2 primeiras equações possuem uma estrutura muito
-  semelhante, então faremos a operação a seguir
-\end{enumerate}
+    \(\clubsuit\) \textbf{2.} Novamente, as 2 primeiras equações possuem uma
+estrutura muito semelhante, então faremos a operação a seguir
 
-\[ \tag{8.3} r e^{-2f_1} (R_{00} - \Lambda g_{00}) + (R_{11} - \Lambda g_{11})  = 0 \]
+\begin{equation}
+r e^{-f_1+f_2} (R_{00} - \Lambda g_{00}) + r(R_{11} - \Lambda g_{11})  = 0
+\end{equation}
 
 Exatamente como fizemos como no estudo da solução Schwarzschild.
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{20}{\boxspacing}
+\prompt{In}{incolor}{18}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{n}{r}\PY{o}{*}\PY{p}{(}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{f1}\PY{o}{+}\PY{n}{f2}\PY{p}{)}\PY{o}{*}\PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
  
             
-\prompt{Out}{outcolor}{20}{}
+\prompt{Out}{outcolor}{18}{}
     
     $\displaystyle \frac{d}{d r} f_{1}{\left(r \right)} + \frac{d}{d r} f_{2}{\left(r \right)}$
 
     
 
-    de onde concluímos que
-\[  \tag{8.4} f_1 + f_2 = c_0 \quad \Rightarrow \quad f_2 = -f_1  \]
-onde \(c_0\) é uma constante que escolhemos como zero.
+    de onde concluímos que \begin{equation}  
+f_1 + f_2 = c_0 \quad \Rightarrow \quad f_2 = -f_1  
+\end{equation} onde \(c_0\) é uma constante que escolhemos como zero.
 
-    \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  Agora vamos usar essa condição na equação
-  \[ \tag{8.5} R_{22} - \Lambda g_{22} = 0 \]
-\end{enumerate}
+    \(\clubsuit\) \textbf{3.} Agora vamos usar essa condição na equação
+\begin{equation}
+R_{22} - \Lambda g_{22} = 0 
+\end{equation}
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{21}{\boxspacing}
@@ -1642,19 +1641,23 @@ onde \(c_0\) é uma constante que escolhemos como zero.
 
     e a solução dessa expressão é dada por
 
-\[\tag{8.6} e^{f_1} = 1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}\]
+\begin{equation}
+e^{f_1} = 1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}
+\end{equation}
 
     E essa solução é conhecida como De Sitter-Schwarzschild e a métrica é
 dada por
 
-\[ \tag{8.7} ds^2 = -\left(1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}\right) c^2 dt^2 + \frac{dr^2}{\left(1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}\right)} + r^2 d\theta^2 + r^2 \sin^2\theta d\phi^2 \]
+\begin{equation}
+ds^2 = -\left(1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}\right) c^2 dt^2 + \frac{dr^2}{\left(1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}\right)} + r^2 d\theta^2 + r^2 \sin^2\theta d\phi^2 
+\end{equation}
 
     O caso particular onde \(M=0\) é chamada de \emph{de Sitter} (dS) (se
 \(\Lambda > 0\)) e \emph{anti-de Sitter} (se \(\Lambda < 0\)). Vamos
 agora finalizar a análise calculando o escalar de curvatura e de
 Kretschmann.
 
-    \(\clubsuit\) \textbf{ESCALAR DE CURVATURA:} No caso da solução de
+    \(\spadesuit\) \textbf{ESCALAR DE CURVATURA:} No caso da solução de
 Schwarzschild, o escalar de curvatura é trivial pois a tensor de Ricci é
 nulo. Nas soluções de Sitter, devemos analisar esse invariante.
 
