@@ -3,6 +3,7 @@
     \usepackage[breakable]{tcolorbox}
     \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
     
+    \input{polyglosia.tex}
 
     % Basic figure setup, for now with no caption control since it's done
     % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
@@ -383,7 +384,7 @@
 
 \begin{document}
     
-    \maketitle
+    \input{info.tex}
     
     
 
@@ -1036,6 +1037,8 @@ Usando uma tranformação da forma
 \[ r = \rho\left( 1 + \frac{c_0}{2 \rho} \right)^2\; , \] determine a
 constante \(c_0\) e as funções \(a(\rho)\) e \(b(\rho)\) para a solução
 de Schwarzschild. Onde se encontra o Horizonte de Eventos?
+
+\appendix
 
     \hypertarget{resolvendo-a-equauxe7uxe3o-de-einstein-com-o-python}{%
 \section{Resolvendo a Equação de Einstein com o
