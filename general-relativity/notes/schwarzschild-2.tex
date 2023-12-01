@@ -1,0 +1,1745 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+
+    \input{polyglosia.tex}
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{schwarzschild}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \input{info.tex}
+    
+    
+
+    
+    \hypertarget{introduuxe7uxe3o-e-motivauxe7uxe3o}{%
+\section{Introdução e
+Motivação}\label{introduuxe7uxe3o-e-motivauxe7uxe3o}}
+
+    O espaço-tempo de Schwarzschild é a solução exata (e não-trivial) mais
+conhecida das equações de Einstein. Foi a primeira solução exata a ser
+descoberta poucos meses após a publicação dos artigos originais de
+Einstein. E felizmente, essa é a solução mais importante (não é exagero)
+da equação de Einstein.
+
+Esse espaço-tempo descreve o campo gravitacional \textbf{exterior}
+gerado por um corpo perfeitamente esférico, sem carga elétrica e que não
+está girando (frequentemente chamado de spin, mas que vou evitar essa
+terminologia pois ela está muito associado à mecânica quântica). Essa
+solução descreve com grande acurácia algumas observações astronômicas, a
+deflexão da luz pelo Sol, o periélio de Mercúrio, e de fato, por
+décadas, essa solução era a única solução (exata) relativística que
+mostrava como a Relatividade Geral tinha uma aplicabilidade maior que a
+teoria Newtoniana. Além disso, a solução de Schwarzschild fornece um
+modelo simples para alguns dos objetos mais misteriosos da natureza: Os
+Buracos Negros.
+
+Nessa aula, analisaremos a construção dessa solução, e começaremos a
+analisar algumas de suas propriedades físicas mais importantes.
+
+    \hypertarget{similaridades-com-o-eletromagnetismo}{%
+\section{Similaridades com o
+eletromagnetismo}\label{similaridades-com-o-eletromagnetismo}}
+
+    Antes de começar a resolver a equação de Einstein, iremos fazer uma
+breve (muito breve mesmo) revisão da lei de Gauss. Isso ajudará na
+compreenssão de algumas escolhas que faremos no caso da resolução da
+Equação de Einstein. Vamos começar relembrando a lei de Gauss cuja
+expressão local é dada por
+\[ \tag{2.1} \nabla \cdot \vec{E} = \frac{\rho}{\epsilon_0}\]
+
+onde \(\rho\) é a densidade de cargas e é, em geral, uma função do tempo
+e das coordenadas espaciais. Além disso, essa densidade é não nula num
+volume \(V\) do espaço, é o que os matemáticos costumam chamar de
+\emph{suporte finito}, ou seja,
+\[\tag{2.2} \rho(t, x_1, x_2, x_3) = \left\{\begin{array}{lll}
+ 0 &se& (x_1, x_2, x_3) \notin V \\
+ \neq 0 &se& (x_1, x_2, x_3) \in V \\
+\end{array}\right. \]
+
+Isso significa, em particular, que temos 2 regiões para se estudar essas
+soluções, dentro e fora do corpo eletricamente carregado.As duas
+soluções devem ser coladas de maneira apropriada com condições de
+contorno apropriadas, e de fato, a solução interior é um pouco mais
+sofisticada e por isso focaremos unicamente na solução exterior, onde a
+densidade é nula.
+
+A existência de simetrias simplifica bastante o estudo de sistemas que
+satisfazem a lei de Gauss. O estudo de soluções exatas frequentemente
+consideram a existência de algum tipo de simetria: por exemplo, podemos
+assumir que o sistema não depende do tempo, e isso nos trás ao reino da
+eletrostática. Ou ainda, podemos impor que o sistema tem simetria
+esférica, planar e cilíndrica.
+
+No caso da relatividade geral, simetria esférica é particularmente útil
+pois `vistos de longe', diversos corpos celestes podem ser aproximados
+por esferas perfeitas, planetas, estrelas, buracos negros e outros.
+Claro que isso é algo de interesse astrofísico. Então vamos entendar
+brevemente como esse tratamento é feito no caso eletrostático.
+
+    \hypertarget{soluuxe7uxf5es-esfericamente-simuxe9tricas}{%
+\subsection{Soluções Esfericamente
+Simétricas}\label{soluuxe7uxf5es-esfericamente-simuxe9tricas}}
+
+    Vamos considerar que o campo elétrico fora de um corpo esfericamente
+simétrico. A primeira coisa que fazemos é escrever o nosso sistema em
+coordenadas esféricas,
+\[\tag{2.3} x_1 = r \sin\theta \cos\phi\quad x_2 = r \sin\theta \sin\phi\quad  x_3 = r \cos\theta\; ,\]
+e além disso, essa simetria nos diz que o campo elétrico tem dependência
+funcional apenas na direção radial, ou seja,
+\[ \tag{2.4} \vec{E} = E(r) \hat{r}\] onde \(\hat{r}\) é o versor
+radial.
+
+Fora do corpo, a densidade de carga é zero, de tal forma que a lei de
+Gauss é
+\[ \tag{2.5} \nabla\cdot \vec{E} = \frac{1}{r^2}\frac{d}{dr}(r^2 E(r)) = 0 \quad \Rightarrow \quad E(r) = \frac{c_0}{r^2} \]
+onde \(c_0\) é uma constante. Podemos determinar a constante \(c_0\)
+integrando sobre o volume de uma esfera \(\mathbb{S}^2\) que engloba
+todo o corpo carregado. Ou seja, usamos a lei de Gauss na forma
+integral, pois é essa lei que nos informa das propriedades globais do
+campo, ou seja
+\[ \tag{2.6} \frac{Q}{\epsilon_0}= \int \nabla\cdot \vec{E} =  r^2 E(r) \int_{0}^\pi \sin\theta d\theta \int_{0}^{2\pi} = 4 \pi c_0  \]
+onde \(Q\) é a carga total do corpo e na segunda igualdade usamos o
+teorema da divergência. Assim, obtemos é o campo de Coulomb
+\[ \tag{2.7} \vec{E} = \frac{Q}{4 \pi \epsilon_0 r^2} \hat{r} \; . \]
+
+Empregaremos essa mesma lógica para resolver a Equação de Einstein no
+caso de um corpo esfericamente simétrico.
+
+    \hypertarget{simetria-de-gauge}{%
+\subsection{Simetria de Gauge}\label{simetria-de-gauge}}
+
+    Outro detalhe muito importante na teoria eletromagnética é que
+(classicamente) os campos físicos mensuráveis são os campos elétrico
+\(\vec{E}\) e magnético \(\vec{B}\), que escritos em termos dos
+potenciais escalar \(\phi\) e vetor \(\vec{A}\) são
+\[\tag{2.8} \vec{E} = - \nabla \phi - \frac{d}{dt}\vec{A} \qquad \vec{B} = \nabla \times \vec{A}  \]
+
+E é simples verificar que os campos acima são invariantes pelas
+transformações de gauge (ou calibre) dadas por
+\[\tag{2.9} \phi \mapsto \phi' = \phi - \frac{d}{dt}\alpha \qquad \vec{A} \mapsto \vec{A}' = \vec{A} + \nabla \alpha \]
+onde \(\alpha = \alpha(t, \vec{r})\) é uma função diferenciável
+genérica. Como o parâmetro \(\alpha\) é uma função do espaço-tempo,
+dizemos que essa é uma transformação local.
+
+Tendo isso em mente, podemos reescrever as equações de Maxwell
+unicamente em termos dos potenciais como (Ver seção 6.2 do Jackson)
+\[\tag{2.10} \Delta \phi + \frac{\partial}{\partial t} (\nabla\cdot \vec{A}) = - \frac{\rho}{\epsilon_0} 
+\qquad ; \qquad \Delta \vec{A} - \frac{1}{c^2} \frac{\partial^2 }{\partial t^2} \vec{A} - \nabla \left( \nabla \cdot \vec{A} + 
+\frac{1}{c^2} \frac{\partial}{\partial t}\phi \right) = - \mu_0 \vec{J} \]
+
+Mas como temos a simetria de Gauge, podemos escolher uma função
+\(\alpha\) que force a seguinte condição
+\[ \nabla \cdot \vec{A} + \frac{1}{c^2} \frac{\partial}{\partial t}\phi = 0 \]
+que é chamado de Gauge de Lorenz. Infelizmente para Lorenz, o gauge
+acima é invariante por transformações de Lorentz (e Lorentz é mais
+famoso), então muitos chamam essa condição de Gauge de Lorentz. Agora é
+simples observar que as equações (2.10) assumem a forma de equações de
+onda inomogêneas
+\[ \tag{2.11} \Delta \phi - \frac{1}{c^2} \frac{\partial}{\partial t} \phi = - \frac{\rho}{\epsilon_0}
+\qquad \Delta \vec{A} - \frac{1}{c^2} \frac{\partial}{\partial t}  \vec{A} = - \mu_0 \vec{J}
+\]
+
+Outro Gauge particularmente útil é
+\[ \tag{2.12} \nabla\cdot \vec{A} = 0 \] Chamado de Gauge de Coulomb,
+pois o potencial escalar terá a forma que apendemos a amar no estudo da
+eletrostática.
+
+Duas são as conclusões importantes:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  \emph{Apenas quantidades que são invariantes pelas transformações de
+  gauge são quantidades mensuráveis.}
+\item
+  \emph{Podemos usar a simetria de gauge para simplificar o nosso
+  problema.}
+\end{enumerate}
+
+Vamos manter esses dois fatos em mente.
+
+    \hypertarget{ansuxe4tz-para-a-soluuxe7uxe3o-exterior-de-schwarzschild}{%
+\section{Ansätz para a solução Exterior de
+Schwarzschild}\label{ansuxe4tz-para-a-soluuxe7uxe3o-exterior-de-schwarzschild}}
+
+    Vimos na primeira parte desse curso que a equação de campo de Einstein é
+dada por:
+\[ \tag{3.1} R_{\mu\nu} - \frac{1}{2} (R - 2 \Lambda) g_{\mu\nu} = \frac{8 \pi G}{c^4} T_{\mu\nu} \qquad (\mu, \nu = 1,2,3,4)\]
+onde \(R_{\mu\nu}\) são as componentes do tensor de Ricci,
+\(T_{\mu\nu}\) as componentes do tensor energia-momento, \(R\) o escalar
+de curvatura, \(\Lambda\) a constante cosmológica. Além disso,
+\(g_{\mu\nu}\) são as componentes da métrica que é um tensor simétrico,
+e todas as componentes são funções das coordenadas do espaço-tempo, ou
+seja \(g_{\mu\nu}=g_{\mu\nu}(x^0, x^1, x^2, x^3)\).
+
+Por abuso de linguagem, vamos chamar o elemento de distântia \(ds^2\) de
+métrica, e esse é dado por
+\[ \tag{3.2} ds^2 = \sum_{\mu=0}^3 \sum_{\nu=0}^3 g_{\mu\nu} dx^\mu dx^\nu  \equiv  g_{\mu\nu} dx^\mu dx^\nu \]
+onde na última igualdade usamos a convenção de Einstein para soma.
+
+E assim como discutimos antes, iremos considerar uma solução
+esfericamente simétrica na região exterior à fonte, ou seja temos que
+resolver a equação de Einstein onde o tensor-energia momento
+\(T_{\mu\nu} = 0\), ou seja
+\[ \tag{3.3.a} R_{\mu\nu} - \frac{1}{2} (R - 2 \Lambda) g_{\mu\nu} = 0 \]
+
+Além disso, usando que \(R = g^{\mu\nu} R_{\mu\nu}\) e que
+\(g^{\mu\nu} g_{\mu\nu} = 4\), temos que a equação acima pode ser
+escrita como
+
+\[ \tag{3.3.b} R = 4\Lambda
+\qquad \Leftrightarrow \qquad R_{\mu\nu} = \Lambda g_{\mu\nu}\]
+
+E agora vamos começar a usar as nossas hipóteses simplificadoras.
+
+    \hypertarget{simetria-esfuxe9rica}{%
+\subsection{Simetria Esférica}\label{simetria-esfuxe9rica}}
+
+    Nossa primeira hipótese é a simetria esférica da métrica. Vamos detalhar
+um pouco essa hipótese agora. Vamos escrever todas as nossas equações em
+termos de coordenadas esféricas. Já vimos na equação (2.3) que podemos
+parametrizar a seção espacial em termos do raio e dos ângulos polar e
+azimutal, dados respectivamente, por \(\theta \in [0, \pi)\) e
+\(\phi \in [0, 2\pi)\).
+
+Portanto escreveremos nossa métrica com índices na forma
+\[ \tag{3.4} g = 
+\begin{pmatrix}
+g_{tt} & g_{tr}& g_{t\theta} & g_{t\phi} \\
+g_{tr} & g_{rr} & g_{r\theta} & g_{r \phi} \\
+g_{t\theta} & g_{r \theta} & g_{\theta \theta} & g_{\theta \phi} \\
+g_{t\phi} & g_{r \phi} & g_{\theta\phi} & g_{\phi\phi} \\
+\end{pmatrix} \]
+
+    \hypertarget{esfera-simetria-so3}{%
+\subsubsection{Esfera \& Simetria SO(3)}\label{esfera-simetria-so3}}
+
+    Vamos primeiro trabalhar as coordenadas \((\theta, \phi)\), que definem
+a esfera. Considere um raio fixo constante \(r_0\) constante,
+\(\mathbb{S}^2\). Essa esfera é parametrizada por pontos no espaço
+Euclidiano \(\mathbb{R}^3\) que satisfazem a condição
+\[\tag{3.5} (x^1)^2 + (x^2)^2 + (x^3)^2 = r_0^2 \] Portanto
+\[ \tag{3.6} x^1 = r_0 \sin\theta \cos\phi\quad x^2 = r_0 \sin\theta \sin\phi\quad  x^3 = r_0 \cos\theta\; .\]
+
+Agora queremos calcular distâncias na esfera, ou seja, queremos
+encontrar a métrica desse espaço. Como esse espaço está embebido no
+espaço Euclidiano em 3D, que possui métrica
+\[ ds^2_{Euc} = (dx^1)^2 + (dx^2)^2 + (dx^3)^2 \] ele herdará essa
+métrica, ao impormos as condições (3.4) ou (3.5). Portanto
+\[ \tag{3.7} ds^2_{\mathbb{S}^2} = (dx^1)^2 + (dx^2)^2 + (dx^3)^2 = r_0^2 (d\theta^2 + \sin^2\theta d\phi^2) \equiv r_0^2  d\Omega^2.\]
+
+Isso significa que \[ \tag{3.8}  \boxed{g_{\theta \phi} = 0}\; \qquad 
+\boxed{g_{\phi\phi}   = g_{\theta\theta} \sin^2\theta }. \] Além disso,
+as componentes da métrica são funções do raio \(r\) e do tempo \(t\), ou
+seja \[ \tag{3.9}  \boxed{g_{\mu\nu} = g_{\mu\nu}(t,r)}\]
+
+    \hypertarget{foliauxe7uxe3o-do-espauxe7o-tempo}{%
+\subsubsection{Foliação do
+Espaço-Tempo}\label{foliauxe7uxe3o-do-espauxe7o-tempo}}
+
+    No espaço Euclidiano, podemos usar (3.5) com \(r\) variável para
+escrever a métrica coordenadas esféricas como
+\[\tag{3.10} ds_{Euc}^2 = dr^2 + r^2 d\Omega^2\] E podemos dizer que
+temos uma foliação do espaço Eucliano em esferas concentricas. Veja que
+para cada raio \(r\) temos uma esfera diferente. Além disso, orientamos
+o nosso sistema de coordenadas para que diferentes raios \(r_1\) e
+\(r_2\) sejam identificados pelos mesmos ângulos \((\theta, \phi)\).
+Essa é uma escolha bastante apropriada para o nosso problema, mas não é
+sempre válida. Isso significa que as coordenadas radial e angulares
+estão desacopladas. A consequência disso é que
+\[ \tag{3.11} \boxed{g_{r \theta} = g_{r \phi} = 0}\; . \]
+
+Além disso, supomos que uma foliação com relação no tempo, de forma que
+para uma esfera de raio fixo, a evolução temporal nada mais será que uma
+translação na esfera. Consequentemente
+\[ \tag{3.12} \boxed{g_{t \theta} = g_{t \phi} = 0}\; . \]
+
+    Para simplificar a nossa análise que faremos mais adiante, vamos
+escrever \[ \tag{3.13} g_{\theta \theta} = F^2 r^2 \qquad F = F(t,r)\]
+
+Portanto escreveremos nossa métrica com índices na forma
+\[ \tag{3.14} g = 
+\begin{pmatrix}
+g_{tt} & g_{tr} & 0 & 0 \\
+g_{tr} & g_{rr} & 0 & 0 \\
+0 & 0 & (F r)^2  & 0 \\
+0 & 0 & 0 & (F r)^2 \sin^2\theta \\
+\end{pmatrix} \]
+
+Além disso, não queremos que a assinatura da métrica mude, ou seja,
+queremos que ela permaneça Lorentziana \(g_{tt} < 0\) e \(g_{rr} > 0\),
+enquanto que \(g_{tr}\) não precisa ser especificada (ainda). Com isso,
+o nosso ansätz é escrito como
+\[ \tag{3.15} ds^2 = g_{tt} c^2 dt^2 + 2 g_{tr} c dt dr + g_{rr} dr^2 + (F r)^2 d \Omega^2  \]
+
+    \hypertarget{transformauxe7uxf5es-gerais-de-coordenadas}{%
+\subsubsection{Transformações Gerais de
+Coordenadas}\label{transformauxe7uxf5es-gerais-de-coordenadas}}
+
+    Sabemos pela discussão inicial do estudo da relatividade geral, que
+também temos uma simetria local, a simetria de Difeomorfismo, que nós
+físicos chamamos de \textbf{transformações gerais de coordenadas}. Isso
+significa que podemos modificar as nossas coordenadas de tal forma que
+as quantidades físicas relevantes são inalteradas, ou se transformam de
+modo previsível. Isso é apenas o reflexo de que o Universo não vem
+dotado de um sistema de coordenadas -- Isso é uma construção humana. No
+entanto, existe uma noção de curvatura e quantidades relacionadas. Essa
+é a ideia da relatividade geral. De toda forma, sistemas de coordenadas
+relacionados por
+\[ \tag{3.16} x^\mu \mapsto y^\sigma = y^\sigma(x) \qquad \Rightarrow \quad ds^2 = g_{\mu\nu} dx^\mu dx^\nu = g_{\mu\nu} \frac{\partial x^\mu}{\partial y^\sigma} \frac{\partial x^\nu}{\partial y^\lambda} dy^\sigma dy^\lambda \]
+conduzem a mesma física. De fato, todos os objetos que consideramos até
+agora são tensores com relação à essas transformações. Essas
+transformações são análogas às simetrias de gauge que discutimos no
+eletromagnetismo.
+
+Na relatividade geral, temos a liberdade de fazer 4 redefinições de
+coordenadas, o que nos conduzirá a 4 equações diferenciais aos moldes
+dos \emph{gauge fixings}. Nosso objetivo será usar essas liberdades para
+simplificar a métrica (3.15) ainda mais.
+
+    \(\clubsuit\) \textbf{1.} Vamos considerar primeiramente uma
+transformação de coordenadas na forma \[ \tag{3.16.a} t' = t'(t,r) \] de
+forma que
+\[ \tag{3.16.b} dt' = \frac{\partial t'}{\partial t} dt +  \frac{\partial t'}{\partial r} dr \]
+e impomos a condição
+\[ \tag{3.17} g_{tt} c^2 dt^2 + 2 g_{tr} dt dr + g_{rr} dr^2 = G_1 c^2 dt'^2 + G_2 dr^2 \]
+o que significa que temos 3 ``\emph{condições de gauge}'' que determinam
+as funções \(G_1(t,r)\) e \(G_2(t,r)\)
+\[ \tag{3.18.a} g_{tt} = G_1 \left(\frac{\partial t'}{\partial t} \right)^2  \]
+\[ \tag{3.18.a} g_{tr} = G_1 c \left(\frac{\partial t'}{\partial t} \right) \left(\frac{\partial t'}{\partial r} \right)  \]
+\[ \tag{3.18.a} g_{rr} = G_1 c^2 \left(\frac{\partial t'}{\partial r} \right)^2 + G_2  \]
+Agora assumimos que \(t'(t,r)\) é a nossa nova coordenada temporal.
+
+O estudante mais atento pode se perguntar se podemos resolver esse
+sistema de equações diferenciais. Primeiro, observe que temos 3 equações
+para 3 funções desconhecidas: \(\{g_{tt}, g_{tr}, g_{rr}\}\). Além
+disso, nossa hipótese é que as variedades que são fisicamente relevantes
+são variedades suaves infinitamente diferenciáveis, portanto nós podemos
+encontrar difeomosfismos entre abertos das variedades e o espaço de
+Minkowski. Portanto: podemos (a princípio) resolver esse sistema.
+
+Nesse novo sistema de coordenadas, a métrica torna-se
+\[ \tag{3.19} ds^2 = G_1 c^2 dt'^2 + G_2 dr^2 + F r^2 d \Omega^2  \] que
+é diagonal.
+
+    \(\clubsuit\) \textbf{2.} Para usar a nossa liberdade de gauge
+remanescente, vamos fazer uma escolha óbvia: Tomamos função
+\(r'=r'(t,r)\) tal que \[ \tag{3.20} r' = F r\] E como acabamos de
+dizer: Essa relação pode ser invertida, pois transformações gerais de
+coordenadas é um outro nome para difeomorfismos, que são homeomorfismos
+(bijeções contínuas) e diferenciáveis. Invertendo a relação acima temos
+que \(r = f^{-1}(r')\), de forma que podemos escrever
+\[\tag{3.21.a} r = \frac{r'}{F}\qquad \text{onde} \qquad F = F(t, f^{-1}(r')) \]
+Mas veja que isso é um problema, pois devemos ter uma independencia
+functional entre as coordenadas \(t\) e \(r\). Por isso, a função (F)
+deve ser independente do tempo, ou seja \(F = F(r)\).
+
+Assim
+\[ \tag{3.21.b} dr' = \left(F + \frac{\partial F}{\partial r} \right) dr \qquad \Rightarrow \qquad dr = \left(F + \frac{\partial F}{\partial r} \right)^{-1} dr' = \left(F + \frac{\partial r'}{\partial r}\frac{\partial F}{\partial r'} \right)^{-1} dr'\]
+de tal forma que
+\[ \tag{3.22} ds^2 = G_1 c^2 dt'^2 + G_2 \left(F + \frac{\partial r'}{\partial r} \frac{\partial F}{\partial r'} \right)^{-2} dr'^2 + r'^2 d \Omega^2  \]
+
+Portanto, usando as 4 condições de gauge conseguimos trazer a métrica
+para uma forma muito mais simples. Porém está horrorosa.
+
+    \hypertarget{ansuxe4tz-final}{%
+\subsubsection{Ansätz final}\label{ansuxe4tz-final}}
+
+    Tendo em vista os resultados acima, podemos finalmente chamar as
+componentes da métrica (3.22) de outros nomes, para deixá-la numa forma
+mais elegante. Primeiramente, podemos remover as linhas das novas
+coordenadas temporal e radial, ou seja, escrevemos \(t' \equiv t\) e
+\(r' \equiv r\).
+
+Além disso, temos que lembrar que a métrica tem simetria Lorentziana.
+Definimos agora duas funções \(\gamma_1(t,r)\) e \(\gamma_2(t,r)\) tar
+que \[ \tag{3.23} G_1(t,r) = - e^{\gamma_1(t,r)} < 0 \qquad 
+G_2 \left( F + \frac{\partial r'}{\partial r} \frac{\partial F}{\partial r'} \right)^{-2} = e^{\gamma_2(t,r)} > 0\]
+
+Portanto, nosso ansätz é dado por
+\[ \tag{3.24} \boxed{ds^2 = - e^{\gamma_1} c^2 dt^2 + e^{\gamma_2}dr^2 + r^2 (d\theta^2 + \sin^2\theta d\phi^2)}\]
+
+Essa é a métrica que queremos considerar na equação de Einstein.
+
+\textbf{Um ponto que deve ser destacado é que a coordenada \(r\) não é a
+distância entre um ponto genérico e a origem da curvatura (ct,0,0,0).
+Devemos pensar em \(r\) como uma coordenada definida de tal forma que ao
+considerarmos ela fixa, a área da superfície definida por
+\((\theta, \phi)\) é dada por \(4 \pi r^2\).}
+
+    \hypertarget{resolvendo-a-equauxe7uxe3o-de-einstein}{%
+\section{Resolvendo a Equação de
+Einstein}\label{resolvendo-a-equauxe7uxe3o-de-einstein}}
+
+    Primeiro vamos considerar o caso onde a constante cosmológica é zero,
+portanto a equação de Einstein é dada por \[ \tag{4.1} R_{\mu\nu} = 0 \]
+para o ansätz (3.24). No apêndice A, Todas as componentes do tensor de
+Ricci são apresentadas. No apêndice B, usaremos esse mesmo ansätz para
+estudar o caso onde a constante cosmológica é diferente de zero.
+
+    Para a solução (3.24), temos 5 componentes não nulas no tensor de Ricci,
+são elas
+\[\tag{4.2} R_{tt}\qquad R_{tr}\qquad R_{rr}\qquad R_{\theta\theta} \qquad R_{\phi\phi} = \sin^2\theta R_{\theta\theta}\]
+
+    \(\spadesuit\) \textbf{1.} A equação \(R_{tr} = 0\) é dada por
+\[\tag{4.3} \frac{1}{r}\frac{\partial \gamma_2}{\partial t} = 0 \qquad \Rightarrow \qquad \gamma_2=f_2(r)\]
+ou seja, a função \(f_2\) não depende do tempo.
+
+    \(\spadesuit\) \textbf{2} Nesse ponto, podemos tomar \(f_2 = f_2(r)\) e
+escrever as equações de Einstein
+
+\begin{align*}
+R_{tt} & = \frac{e^{f_1 - f_2}}{r}\left[\partial_r f_1 + \frac{1}{4}\left( (\partial_r f_1)^2 - \partial_r f_1 \partial_r f_2 +2 \partial^2_r f_1 \right) \right] = 0 \\
+\tag{4.4} R_{rr} & = \partial_r f_2 + \frac{1}{4}\left( -(\partial_r f_1)^2 + \partial_r f_1 \partial_r f_2 - 2 \partial^2_r f_1 \right) = 0 \\
+R_{\theta \theta} & = \frac{e^{-f_2}}{2}\left( - r \partial_r f_1 + r \partial_r f_2 + 2 e^{f_2} - 2 \right) = 0
+\end{align*}
+
+    \(\spadesuit\) \textbf{3.} Em seguida tomamos a derivada temporal de
+\(R_{\theta\theta} = 0\). Isso implica a relação
+\[\tag{4.5} -\partial_t R_{\theta\theta} = \frac{r e^{-\gamma_2}}{2}\frac{\partial^2 \gamma_1}{\partial r \partial t} = 0 \qquad \Rightarrow \qquad \gamma_1(r,t)=f_1(r) + 2g_1(t)\]
+onde o coeficiente \(2\) é mera conveniência. Assim, a métrica se torna
+\[ \tag{4.6} ds^2 = - e^{f_1} c^2 (e^{g_1(t)}dt)^2 + e^{f_2}dr^2 + r^2 (d\theta^2 + \sin^2\theta d\phi^2)\; .\]
+
+Observe, no entando, que podemos voltar à nossas transformações gerais
+de coordenadas (3.16.a), e adiantar para remover o termo inconveniente
+na metrica (4.6), de tal forma que \(dt' = e^{g_1(t)}dt\) é a nossa
+coordenada temporal. Observe que não estamos usando uma nova
+transformação de coordenadas, estamos apenas melhorando a transformação
+(3.16.a) para que ela remova esse termo.
+
+Finalmente, temos que
+\[ \tag{4.7} ds^2 = - e^{f_1} c^2 dt^2 + e^{f_2}dr^2 + r^2 (d\theta^2 + \sin^2\theta d\phi^2)\; ,\]
+onde agora, todas as componentes da métrica são independentes do tempo,
+e é dita \emph{estacionária}. Mas não apenas isso, essa métrica é também
+\emph{estática}.
+
+A diferença entre as duas definições é simples. Uma métrica é estática
+se ela não se mexe, por exemplo, ela descreve um objeto que permanece
+parado. Uma métrica é estacionária se ela não muda de uma forma
+uniforme. Por exemplo, uma estrela girando a uma velocidade constante.
+Uma métrica é estática se ela permanece igual se consideramos inversão
+temporal \(t\mapsto -t\), e isso significa que métricas estáticas não
+podem ter termos cruzados \(g_{t\mu}\) na métrica.
+
+    \(\spadesuit\) \textbf{4.} Usando agora (4.4), observe que a estrutura
+de \(R_tt\) e \(R_{rr}\), são bastante semelhantes. Portanto, temos
+\[\tag{4.7} 0 = r(e^{-f_1 + f_2}R_{tt} + R_{rr}) = \frac{d}{dr}(f_1 + f_2)\qquad \Rightarrow \qquad  f_2 = -f_1 + c_0 \]
+onde \(c_0\) é uma constante que tomamos, sem nenhuma perda de
+generalidade, como zero.
+
+    \(\spadesuit\) \textbf{5.} Finalmente, já sabemos que
+\[ \tag{4.8} R_{\phi\phi} = \sin^2 \theta R_{\theta\theta}\] de forma
+que nos resta apenas uma equações de Einstein para nos preocuparmos, que
+é
+\[ \tag{4.9} r e^{f_1} \frac{d f_1}{dr}  + e^{f_1} - 1 = 0 \qquad \Rightarrow \qquad \frac{d(r e^{f_1})}{dr} = 1  \]
+
+    E é simples verificar que a solução para essa equação diferencial é
+
+\[ \tag{4.10} r e^{f_1} = r + c_0 \qquad \Rightarrow \qquad  e^{f_1} = 1 + \frac{c_0}{r} \]
+
+No exercício 2 na lista abaixo, o leitor deve provar que
+
+\[ \tag{4.11} c_0 = - \frac{2 G M}{c^2}\; . \]
+
+    \textbf{TEOREMA DE BIRKHOFF}
+
+O teorema de Birkhoff afirma que o espaço-tempo de Schwarzschild é a
+única solução que das equações de Einstein no vácuo que são estáticas,
+esfericamente simétricas e assimptoticamente planas. É muito importante
+entender que ignorando qualquer uma das condições acima, o teorema de
+Birkhoff não será mais válido. Um exemplo a ser discutido nesse texto
+como uma leitura extra é a solução de Sitter-Schwarzschild, que é a
+generalização do espaço tempo Schwarzschild para o caso onde a constante
+cosmológica não é nula.
+
+A prova desse teorema é avançada para o nosso presente estudo, mas pode
+ser encontrada com detalhes no livro Gravitation do
+Mister-Thorn-Wheeler, seção 32.2.
+
+    \hypertarget{leitura-extra-primeiro-encontro-com-os-buracos-negros}{%
+\section{LEITURA EXTRA: Primeiro encontro com os buracos
+negros}\label{leitura-extra-primeiro-encontro-com-os-buracos-negros}}
+
+    Concluímos que a metrica é dada por
+
+\[ \tag{5.1} ds^2 = -\left(1 - \frac{2 G M}{c^2 r}\right) c^2 dt^2 + \frac{dr^2}{\left(1 - \frac{2 G M}{c^2 r}\right)} + r^2 d\theta^2 + r^2 \sin^2\theta d\phi^2 \]
+
+    A solução acima tem dois pontos onde a métrica diverge. O primeiro é
+dado pelo ponto
+
+\[ \tag{5.2} R_s = \frac{2GM}{c^2}\]
+
+que é chamado de \textbf{Raio de Schwarzschild}, enquanto que o segundo
+ponto é dado pelo ponto \(r=0\).
+
+    Baseado na nossa comparação com o eletromagnetismo, já sabemos que
+Transformações Gerais de Coordenadas são similares às simetrias de
+gauge. Isso significa, também, que a métrica é um retalho (patch) do
+espaço, e descreve localmente o que está acontecendo numa determinada
+região do espaço-tempo, e que os resultados que obtemos nesse retalho
+devem ser cuidadosamente comparadas com outros sistemas de coordenadas.
+
+Para analisar esses pontos, devemos construir quantidades que não
+dependam do sistema de coordenadas. Uma dessas quantidades é,
+evidentemente, o escalar de curvatura \(R = g^{\mu\nu} R_{\mu\nu}\). No
+caso dos espaços que satisfazem a equação (3.3.b), o escalar de
+curvatura
+
+\[ \tag{5.3} R = 4 \Lambda \]
+
+O estudo de invariantes é fundamental na análise de divergencias na
+métrica. Caso a divergência esteja presente no invariante, não importa o
+sistema de coordenadas escolhidos, a divergência sempre aparecerá. Nesse
+caso dizemos que o ponto é uma singularidade. Caso a singularidade não
+esteja presente nos invariantes, então a divergência é um artefato do
+sistema de coordenadas.
+
+O espaço de Schwarzschild é uma solução plana \(R_{\mu\nu}=0\), portanto
+o escalar de curvatura é nulo, portanto, não é um bom invariante.
+Analisaremos o escalar de Kretschmann na seção abaixo.
+
+Usando esse racional, podemos analisar a natureza dessa métrica
+estudando o escalar de Kretschmann, que é dado por
+
+\[ \tag{5.4} K = R^{\mu_0 \nu_0 \rho_0 \sigma_0} R_{\mu_0 \nu_0 \rho_0 \sigma_0} = g_{\mu_0 \mu_1} g^{\nu_0 \nu_1} g^{\rho_0 \rho_1} g^{\sigma_0 \sigma_1} R^{\mu_0}_{\nu_1 \rho_1 \sigma_1} R^{\mu_1}_{\nu_0 \rho_0\sigma_0} = \frac{48 G^2 M^2}{c^4 r^6} \]
+
+    Observando o escalar de Kretschmann podemos ver que o raio de
+Schwarzschild (5.2) é um ponto completamente ordinário, ao passo que o
+ponto \(r=0\) é divergente. Alguns pontos importantes sobre essas
+regiões são as seguintes:
+
+    \textbf{\# RAIO DE SCHWARZSCHILD:} Essa hipersuperfície não define uma
+singularidade física, mas é apenas um resquício do sistema de
+coordenadas que estamos usando. Isso não significa, no entanto, que
+esses pontos são desinteressantes. Na verdade, toda a superfície define
+o horizonte de eventos. Em geral, o raio de Schwarzschild é muito menor
+que o raio do corpo, por exemplo, para o Sol, o \(R_s \simeq 3 km\) ao
+passo que para o planeta Terra, \(R_s \simeq 9 mm\). Ver tabela abaixo.
+
+A métrica de Schwarzschild que discutimos nesse texto é uma solução
+exterior, ou seja, é válida numa região onde o tensor energia momento é
+nulo \(T_{\mu\nu} = 0\) o que também significa que \(r > R_s\). O estudo
+da geometria interior exige outro sistema de coordenadas, chamada de
+solução interior, é mais sofisticada e não discutiremos nessa aula (e
+nem num curso de graduação). O que nos importa, no entando, é que
+qualquer corpo que tenha um raio menor que o raio de Schwarzschild é
+chamado de buraco negro. Evidente que toda essa discussão seria
+puramente acadêmica se não existissem razões para acreditar na formação
+desses objetos.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{39}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Alguns valores do Raio de Schwarzschild}
+\PY{n}{ScRadius} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}html}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{https://en.wikipedia.org/wiki/Schwarzschild\PYZus{}radius}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{match}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Object}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s Schwarzschild radius}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} 
+\PY{n}{table} \PY{o}{=} \PY{n}{ScRadius}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Object}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Mass}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Schwarzschild radius}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{l+m+mi}{10}\PY{p}{:}\PY{l+m+mi}{20}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{table}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{40}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+     Object           Mass Schwarzschild radius
+10      Sun   1.99×1030 kg           2.95×103 m
+11  Jupiter   1.90×1027 kg               2.82 m
+12   Saturn  5.683×1026 kg          8.42×10−1 m
+13  Neptune  1.024×1026 kg          1.52×10−1 m
+14   Uranus  8.681×1025 kg          1.29×10−1 m
+15    Earth   5.97×1024 kg          8.87×10−3 m
+16    Venus  4.867×1024 kg          7.21×10−3 m
+17     Mars   6.39×1023 kg          9.47×10−4 m
+18  Mercury  3.285×1023 kg          4.87×10−4 m
+19     Moon   7.35×1022 kg          1.09×10−4 m
+20    Human          70 kg         1.04×10−25 m
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \textbf{\# SINGULARIDADE:} O ponto \(r=0\) é uma singularidade física e
+não será removida pela escolha de um novo sistema de coordenada. O fato
+de existir essa singularidade foi razão para que muitos físicos
+acreditassem que buracos negros não poderiam existir. Roger Penrose
+provou uma série de teoremas que mostram que singularidades desse tipo
+(e consequente os Buracos Negros) não são objetos extraordinários na
+Relatividade Geral. Antes de continuarmos, é importante mencionar que a
+maioria dos físicos acreditam que efeitos quânticos de alguma formam
+controlam a formação dessas singularidades.
+
+    \textbf{\# FORMAÇÃO DE UM BURACO NEGRO:} A estabilidade de uma estrela é
+determinada pelo equilíbrio entre a pressão da atração gravitacional e a
+das reações termonucleares, sobretudo no processo de fusão nuclear.
+Quando o combustível começa a acabar, a estrela começa a esfriar, a
+atração gravitacional tende a superar as reações nucleares, e para a
+maioria das estrelas, restará apenas um objeto estelar ultra-denso
+chamado de \emph{Anã Branca}. Esse será o destino do nosso querido Sol,
+que formará uma Anã Branca de raio \(\simeq 5000 km\) (muito maior que
+seu \(R_s\)), mas com uma densidade de \(10^9 kg /m^3\). O mecanismo que
+controla esse colapso gravitacional das Anãs Brancas é a pressão de
+degenerescência dos elétrons. Nesse caso, os elétrons se comportam como
+um gás de Fermi, e eles ocupam todos os estados com energia abaixo da
+Energia de Fermi, de tal forma que esse o princípio de exclusão de Pauli
+salva a estrela de um destino mais trágico.
+
+Chandrasekhar provou (antes de Penrose) que se a corpo estelar
+remanescente (chamado de Remnant em inglês) tiver \(1.4 M_{\odot}\), que
+hoje chamamos de Limite de Chandrasekhar (onde \(M_{\odot}\) é a massa
+solar), a pressão de degenerescência não é suficiente para controlar o
+colapso gravitacional. Com a descoberta dos neutrons por James Chadwick
+em 1932, ficou claro embora a pressão de degenerescência fosse
+insuficiente para controlar o colapso gravitacional, os elétrons
+interagem com os prótrons formando neutrons (e neutrinos) pelo inverso
+do decaimento beta. Isso forma uma estrela de Neutrons. A título de
+comparação, se o nosso Sol virasse uma estrela de neutros, ele teria um
+raio de apenas \(30km\). Esses são os objetos mais densos na Natureza
+depois dos buracos negros, que são formados quando a massa do objeto
+estelar é da ordem de \(3M_{\odot}\), chamado de limite de
+Tolman--Oppenheimer--Volkoff.
+
+    \hypertarget{exercuxedcios}{%
+\section{Exercícios}\label{exercuxedcios}}
+
+    Os problemas marcados com uma estrela são muito importantes e devem ser
+respondidos.
+
+\textbf{Problema 1.} Usando as coordenadas esféricas
+\[ x_1 = \sin\theta \cos\phi\quad 
+x_2 = \sin\theta \sin\phi\quad  
+x_3 = \cos\theta\] prove que a métrica no espaço Euclidiano em 3D é dada
+por \[ ds^2_{Euc} = dr^2 + r^2 d\Omega^2 \] onde a métrica da esfera
+unitária \(\mathbb{S}^2\) é
+\[ d\Omega^2 = d\theta^2 + \sin^2 \theta d\phi^2 \]
+
+\textbf{Problema 2.} Usando a métrica da esfera unitária, mostre que os
+vetores de Killing da esfera \(\mathbb{S}^2\) são \[ 
+\xi^{(1)} = \sin\phi \partial_\theta + \cot\theta\cos\phi \partial_\phi\quad 
+\xi^{(2)} = \cos\phi \partial_\theta - \cot\theta\sin\phi \partial_\phi \quad
+\xi^{(3)} = \partial_\phi
+\] e que eles satisfazem
+\[ [\xi^{(a)}, \xi^{(b)}] = \epsilon^{abc}\xi^{(c)}  \] que é a álgebra
+de Lie \(SO(3)\). Sabendo que a solução de Schwarzschild tem 4 vetores
+de Killing, use esse resultado e escreva todos os campos vetoriais de
+Killing explicitamente.
+
+\(\star\) \textbf{Problema 3.} Usando as equações de Einstein (4.4),
+prove as relações (4.5), (4.7) e (4.10).
+
+\(\star\) \textbf{Problema 4.} Vimos na primeira parte desse curso que
+no limite Newtoniano, o potencial gravitacional é relacionado à
+componente \(g_{00}\) por
+\(g_{00} = -\left(1 + 2\frac{\phi}{c^2}\right)\). Repita o argumento que
+fizemos na primeira parte desse curso, reconsiderando uma partícula
+livre numa geometria definida pela métrica
+\[ ds^2 = -\left(1 + \frac{c_0}{r}\right) c^2 dt^2 + \frac{dr^2}{\left(1 + \frac{c_0}{r}\right)} + r^2 d\Omega_2^2 \]
+
+De fato, estudando a equação da geodésica para a solução de
+Schwarzschild (que encontraremos abaixo) nos levará ao potencial
+\(\phi(r) = - \frac{GM}{r}\). Comparando esse resultado com a lei de
+Gauss gravitacional
+\[\nabla\cdot \vec{E}_g = -\Delta\phi = - 4 \pi G \rho  \quad \Leftrightarrow \quad 
+\int_{\partial V} d \vec{S}\cdot \vec{E}_g  = -4 \pi G M \] onde
+\(\vec{E}_g\) é o campo gravitacional e \(\rho\) é a densidade de massa,
+use os mesmos argumentos do eletromagnetismo para justificar o resultado
+\[ c_0 = - \frac{2GM}{c^2} \]
+
+\textbf{Problema 5.} Alternativamente, podemos buscar uma solução na
+forma
+\[ ds^2 = - a(\rho)^2 c^2 dt^2 + b(\rho)^2 (d\rho^2 + \rho^2(d\theta^2 + \sin^2\theta d\phi^2)) \]
+onde \(\rho=\rho(r)\) é uma nova direção radial. Essas soluções são
+chamadas de \emph{isotrópicas}, e para \(t=constante\), o espaço-tempo
+nessas coordenadas é conforme ao espaço Euclidiano em 3D. Veja que as
+direções angulares não são modificadas.
+
+Usando uma tranformação da forma
+\[ r = \rho\left( 1 + \frac{c_0}{2 \rho} \right)^2\; , \] determine a
+constante \(c_0\) e as funções \(a(\rho)\) e \(b(\rho)\) para a solução
+de Schwarzschild. Onde se encontra o Horizonte de Eventos?
+
+\appendix
+
+\clearpage
+
+    \hypertarget{resolvendo-a-equauxe7uxe3o-de-einstein-com-o-python}{%
+\section{Resolvendo a Equação de Einstein com o
+Python}\label{resolvendo-a-equauxe7uxe3o-de-einstein-com-o-python}}
+
+    Vamos agora resolver a solução de Einstein passo a passo usando o ansätz
+dado na expressão (3).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} METADADOS \PYZam{} PACOTES}
+\PY{k+kn}{from} \PY{n+nn}{sympy} \PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{from} \PY{n+nn}{itertools} \PY{k+kn}{import} \PY{o}{*}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{c+c1}{\PYZsh{} Einsteinpy: https://docs.einsteinpy.org/en/stable/index.html}
+\PY{c+c1}{\PYZsh{} Sympy: https://docs.sympy.org/latest/index.html}
+\PY{c+c1}{\PYZsh{} Intertools: https://docs.python.org/3/library/itertools.html}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} PARÂMETROS }
+\PY{c+c1}{\PYZsh{} Massa M, constante de Newton G, velocidade da luz c, constante cosmológica Lb, tempo t, raio r, angulo polar theta th, azimuth phi ph }
+\PY{n}{M}\PY{p}{,} \PY{n}{G}\PY{p}{,} \PY{n}{c}\PY{p}{,} \PY{n}{Lb}\PY{p}{,} \PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{th}\PY{p}{,} \PY{n}{ph} \PY{o}{=} \PY{n}{symbols}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M G c Lb t r th ph}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{X} \PY{o}{=} \PY{p}{[}\PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{th}\PY{p}{,} \PY{n}{ph}\PY{p}{]}
+\PY{c+c1}{\PYZsh{} Também definimos as funções f1 e f2 que usamos no ansätz para a solução de Schwarzschild}
+\PY{n}{f1} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+\PY{n}{f2} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} 
+
+\PY{c+c1}{\PYZsh{} Para verificar as soluções explícitas, use}
+\PY{c+c1}{\PYZsh{} SCHWARZSCHILD: }
+\PY{c+c1}{\PYZsh{}f1 = ln(1 \PYZhy{} 2*G*M / (r*c**2)) }
+\PY{c+c1}{\PYZsh{}f2 = \PYZhy{} f1}
+\PY{c+c1}{\PYZsh{} De Sitter: }
+\PY{c+c1}{\PYZsh{}f1 = ln(1 \PYZhy{} 2*G*M / (r*c**2) \PYZhy{} Lb * r**2  / 3)}
+\PY{c+c1}{\PYZsh{}f2 = \PYZhy{}f1 }
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{muxe9trica}{%
+\subsection{Métrica}\label{muxe9trica}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Aqui vamos definir a métrica. Inicialmente preenchemos todas as entradas com zeros, e depois definimos as componentes não nulas. }
+\PY{n}{g} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)} 
+\PY{n}{g}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{exp}\PY{p}{(}\PY{n}{f1}\PY{p}{)} \PY{c+c1}{\PYZsh{} felizmente o python é relativista e começa a contar os indices a partir do zero }
+\PY{n}{g}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{exp}\PY{p}{(}\PY{n}{f2}\PY{p}{)}
+\PY{n}{g}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]} \PY{o}{=} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+\PY{n}{g}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{=} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+
+\PY{n}{rank} \PY{o}{=} \PY{n}{g}\PY{o}{.}\PY{n}{rank}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} o rank será útil para generalizar esse código para casos onde o espaço\PYZhy{}tempo tem dimensões maiores ou menos que 4. Sim, isso é muito importante. }
+\PY{n}{gI} \PY{o}{=} \PY{n}{g}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)} \PY{c+c1}{\PYZsh{} Também precisamos da inversa para subir os indices de Lorentz}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{suxedmbolos-de-christoffel}{%
+\subsection{Símbolos de Christoffel}\label{suxedmbolos-de-christoffel}}
+
+    Esses objetos são as componentes da conexão de Levi-Civita dadas
+explicitamente por:
+
+\begin{equation}
+\Gamma^\rho_{\mu\nu} = \frac{1}{2} g^{\rho\sigma} \left( \partial_\mu g_{\sigma\nu} + \partial_\sigma g_{\mu\nu} - \partial_\sigma g_{\mu\nu} \right)
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} k denota os indices contravariantes (no andar de cima), ao passo que i e j denotam os indices covariantes (no andar de baixo).}
+\PY{k}{def} \PY{n+nf}{Gamma}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}\PY{p}{:}
+    \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{GammaMatrix} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{while} \PY{n}{n} \PY{o}{\PYZlt{}} \PY{n}{rank}\PY{p}{:}
+        \PY{n}{GammaMatrix} \PY{o}{=} \PY{n}{GammaMatrix} \PY{o}{+} \PY{n}{gI}\PY{p}{[}\PY{n}{k}\PY{p}{,}\PY{n}{n}\PY{p}{]}\PY{o}{*}\PY{p}{(}\PY{n}{g}\PY{p}{[}\PY{n}{n}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{n}{g}\PY{p}{[}\PY{n}{n}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{g}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{)}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{2}
+        \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+    \PY{k}{return} \PY{n}{GammaMatrix}
+\end{Verbatim}
+\end{tcolorbox}
+
+    É útil pensar nesses objetos, os símbolos de Christoffel como 4 matrizes
+rotulados com o indice k = 0, 1, 2, 3, de tal forma que:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Primeiro construímos 4 matrizes com todas as componentes nulas}
+\PY{n}{ChSymb0} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+\PY{n}{ChSymb1} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+\PY{n}{ChSymb2} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+\PY{n}{ChSymb3} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+\PY{n}{ChSymb} \PY{o}{=} \PY{p}{[}\PY{n}{ChSymb0}\PY{p}{,} \PY{n}{ChSymb1}\PY{p}{,} \PY{n}{ChSymb2}\PY{p}{,} \PY{n}{ChSymb3}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Agora preenchemos essas matrizes com as componentes não nulas para o ansätz dado em (3)}
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+            \PY{k}{if} \PY{n}{Gamma}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+                \PY{n}{ChSymb}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{Gamma}\PY{p}{(}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Para ver o resultado explícito, fazemos}
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{ChSymb}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{+++++++++ Christoffel(}\PY{l+s+si}{\PYZob{}}\PY{n}{k}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) ++++++++++++++++}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{display}\PY{p}{(}\PY{n}{ChSymb}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
++++++++++ Christoffel(0) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \left[\begin{matrix}0 & \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0\\\frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Christoffel(1) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \left[\begin{matrix}\frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & - \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0\\0 & 0 & - r e^{f_{1}{\left(r \right)}} & 0\\0 & 0 & 0 & - r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)}\end{matrix}\right]$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Christoffel(2) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & \frac{1}{r} & 0\\0 & \frac{1}{r} & 0 & 0\\0 & 0 & 0 & - \sin{\left(th \right)} \cos{\left(th \right)}\end{matrix}\right]$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Christoffel(3) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & \frac{1}{r}\\0 & 0 & 0 & \frac{\cos{\left(th \right)}}{\sin{\left(th \right)}}\\0 & \frac{1}{r} & \frac{\cos{\left(th \right)}}{\sin{\left(th \right)}} & 0\end{matrix}\right]$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \hypertarget{tensor-de-riemann}{%
+\subsection{Tensor de Riemann}\label{tensor-de-riemann}}
+
+    De posse dos simbolos de Christoffel, podemos encontrar o tensor de
+Riemann pela expressão
+
+\begin{equation}
+R^{\lambda}_{\rho \mu \nu} = \partial_\mu \Gamma^{\lambda}_{\nu \rho} - \partial_\lambda \Gamma^\nu_{\rho \mu} + \Gamma^\lambda_{\mu\sigma}\Gamma^\sigma_{\rho\nu} -  \Gamma^\lambda_{\nu \sigma}\Gamma^\sigma_{\rho\mu}
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} l é contravariante; k,i,j são covariantes}
+\PY{c+c1}{\PYZsh{} Aqui vamos definir a constração do produto de dois simbolos de Christoffel. Ou seja, os dois últimos termos na equação (5)}
+\PY{k}{def} \PY{n+nf}{Contraction}\PY{p}{(}\PY{n}{l}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}\PY{p}{:}
+    \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{0} 
+    \PY{n}{cont} \PY{o}{=} \PY{l+m+mi}{0} 
+    \PY{k}{while} \PY{n}{n} \PY{o}{\PYZlt{}} \PY{n}{rank}\PY{p}{:}
+        \PY{n}{cont} \PY{o}{=} \PY{n}{cont} \PY{o}{+} \PY{n}{ChSymb}\PY{p}{[}\PY{n}{l}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{n}\PY{p}{]} \PY{o}{*} \PY{n}{ChSymb}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{ChSymb}\PY{p}{[}\PY{n}{l}\PY{p}{]}\PY{p}{[}\PY{n}{j}\PY{p}{,}\PY{n}{n}\PY{p}{]} \PY{o}{*} \PY{n}{ChSymb}\PY{p}{[}\PY{n}{n}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{]}
+        \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+    \PY{k}{return} \PY{n}{cont}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Agora calculamos as componentes do tensor de Riemann propriamente ditas. }
+\PY{k}{def} \PY{n+nf}{Riem}\PY{p}{(}\PY{n}{l}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}\PY{p}{:}
+    \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{Riemann} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{while} \PY{n}{n} \PY{o}{\PYZlt{}} \PY{n}{rank}\PY{p}{:}
+        \PY{n}{Riemann} \PY{o}{=} \PY{n}{Riemann} \PY{o}{+} \PY{n}{ChSymb}\PY{p}{[}\PY{n}{l}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{ChSymb}\PY{p}{[}\PY{n}{l}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{diff}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)} \PY{o}{+} \PY{n}{Contraction}\PY{p}{(}\PY{n}{l}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}
+        \PY{n}{n} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+    \PY{n}{R} \PY{o}{=} \PY{n}{Riemann}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{R}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Com as componentes que podemos calcular usando a função acima, vamos
+organizar esses resultados em termos de matrizes
+\((R^\lambda_\rho)_{\mu\nu}\)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Mais uma vez, definimos as matrizes e preenchemos com zeros. }
+\PY{n}{RieTen00} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen01} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen02} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen03} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+\PY{n}{RieTen10} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen11} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen12} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen13} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+\PY{n}{RieTen20} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen21} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen22} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen23} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+\PY{n}{RieTen30} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen31} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen32} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{;} \PY{n}{RieTen33} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+
+\PY{n}{Rie} \PY{o}{=} \PY{p}{[}\PY{p}{[}\PY{n}{RieTen00}\PY{p}{,} \PY{n}{RieTen01}\PY{p}{,} \PY{n}{RieTen02}\PY{p}{,} \PY{n}{RieTen03}\PY{p}{]}\PY{p}{,} 
+       \PY{p}{[}\PY{n}{RieTen10}\PY{p}{,} \PY{n}{RieTen11}\PY{p}{,} \PY{n}{RieTen12}\PY{p}{,} \PY{n}{RieTen13}\PY{p}{]}\PY{p}{,}
+       \PY{p}{[}\PY{n}{RieTen20}\PY{p}{,} \PY{n}{RieTen21}\PY{p}{,} \PY{n}{RieTen22}\PY{p}{,} \PY{n}{RieTen23}\PY{p}{]}\PY{p}{,}
+       \PY{p}{[}\PY{n}{RieTen30}\PY{p}{,} \PY{n}{RieTen31}\PY{p}{,} \PY{n}{RieTen32}\PY{p}{,} \PY{n}{RieTen33}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} E agora podemos preencher as componentes não nulas nas matrizes acima}
+\PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+            \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+                \PY{k}{if} \PY{n}{Riem}\PY{p}{(}\PY{n}{l}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+                    \PY{n}{Rie}\PY{p}{[}\PY{n}{l}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{Riem}\PY{p}{(}\PY{n}{l}\PY{p}{,}\PY{n}{k}\PY{p}{,}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)} \PY{o}{/} \PY{l+m+mi}{4} 
+\PY{+w}{                    }\PY{l+s+sd}{\PYZsq{}\PYZsq{}\PYZsq{}}
+\PY{l+s+sd}{                    Aqui temos que explicar a presença dessa divisão por 4. No meu código, estamos separando um tensor em várias matrizes, }
+\PY{l+s+sd}{                    e isso introduz redundâncias devido aos loops que estamos tomando sobre esses objetos. }
+\PY{l+s+sd}{                    \PYZsq{}\PYZsq{}\PYZsq{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Para ver o resultado explícito, fazemos}
+\PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+        \PY{n}{display}\PY{p}{(}\PY{n}{Rie}\PY{p}{[}\PY{n}{l}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & - \frac{\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2}}{2} - \frac{\frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}}{2} & 0 & 0\\\frac{\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2}}{2} + \frac{\frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & - \frac{r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0\\0 & 0 & 0 & 0\\\frac{r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & - \frac{r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2}\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\\frac{r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & \frac{\left(- \left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} - \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right) e^{2 f_{1}{\left(r \right)}}}{2} & 0 & 0\\\frac{\left(\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} + \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right) e^{2 f_{1}{\left(r \right)}}}{2} & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & - \frac{r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0\\0 & \frac{r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & - \frac{r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2}\\0 & 0 & 0 & 0\\0 & \frac{r e^{f_{1}{\left(r \right)}} \sin^{2}{\left(th \right)} \frac{d}{d r} f_{1}{\left(r \right)}}{2} & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & - \frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0\\0 & 0 & 0 & 0\\\frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0\\0 & - \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & \left(1 - e^{f_{1}{\left(r \right)}}\right) \sin^{2}{\left(th \right)}\\0 & 0 & \left(e^{f_{1}{\left(r \right)}} - 1\right) \sin^{2}{\left(th \right)} & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & - \frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r}\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\\frac{e^{2 f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2 r}\\0 & 0 & 0 & 0\\0 & - \frac{\frac{d}{d r} f_{1}{\left(r \right)}}{2 r} & 0 & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & e^{f_{1}{\left(r \right)}} - 1\\0 & 0 & 1 - e^{f_{1}{\left(r \right)}} & 0\end{matrix}\right]$
+
+    
+    $\displaystyle \left[\begin{matrix}0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\\0 & 0 & 0 & 0\end{matrix}\right]$
+
+    
+    \hypertarget{tensor-de-ricci}{%
+\subsection{Tensor de Ricci}\label{tensor-de-ricci}}
+
+    Finalmente, podemos calcular o tensor de Ricci como \begin{equation}
+R_{\mu\nu} = R^\rho_{\mu \rho \nu}
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{Ricci}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}\PY{p}{:}
+    \PY{n}{ricc} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+        \PY{n}{ricc} \PY{o}{=} \PY{n}{ricc} \PY{o}{+} \PY{n}{Rie}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{n}{k}\PY{p}{,}\PY{n}{j}\PY{p}{]}
+        \PY{n}{r} \PY{o}{=} \PY{n}{ricc}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{r}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Agora vamos organizar esse tensor na forma matricial
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Ric} \PY{o}{=} \PY{n}{zeros}\PY{p}{(}\PY{n}{rank}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} E agora podemos preencher as componentes não nulas nas matrizes acima}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+         \PY{k}{if} \PY{n}{Ricci}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n}{Ric}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{Ricci}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{33}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Para ver o resultado explícito, fazemos}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n}{Ric}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{:}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{+++++++++ Ricci(}\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{,}\PY{l+s+si}{\PYZob{}}\PY{n}{j}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) ++++++++++++++++}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{n}{display}\PY{p}{(}\PY{n}{Ric}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{p}{)}
+            \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
++++++++++ Ricci(0,0) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \frac{\left(\frac{r \left(\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} + \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right)}{2} + \frac{d}{d r} f_{1}{\left(r \right)}\right) e^{2 f_{1}{\left(r \right)}}}{r}$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Ricci(1,1) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \frac{\frac{r \left(- \left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} - \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right)}{2} - \frac{d}{d r} f_{1}{\left(r \right)}}{r}$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Ricci(2,2) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle - r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)} - e^{f_{1}{\left(r \right)}} + 1$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Ricci(3,3) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \left(- r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)} - e^{f_{1}{\left(r \right)}} + 1\right) \sin^{2}{\left(th \right)}$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \(\clubsuit\) \textbf{1.} Apenas 3 equações são independentes. É simples
+verificar que \begin{equation}
+R_{33} - sin^2\theta = 0 
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{*}\PY{p}{(}\PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{15}{}
+    
+    $\displaystyle 0$
+
+    
+
+    \(\clubsuit\) \textbf{2.} As 2 primeiras equações possuem uma estrutura
+muito semelhante, então faremos a operação a seguir
+
+\begin{equation}
+r(e^{-f_1 + f_2} R_{00} + R_{11})  = 0
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{r}\PY{o}{*}\PY{p}{(}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{f1}\PY{o}{+}\PY{n}{f2}\PY{p}{)}\PY{o}{*}\PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{16}{}
+    
+    $\displaystyle \frac{d}{d r} f_{1}{\left(r \right)} + \frac{d}{d r} f_{2}{\left(r \right)}$
+
+    
+
+    de onde concluímos que \begin{equation}
+f_1 + f_2 = c_0 \quad \Rightarrow \quad f_2 = -f_1  
+\end{equation} onde \(c_0\) é uma constante que escolhemos como zero.
+
+    \(\clubsuit\) \textbf{3.} Agora vamos usar essa condição na equação
+\begin{equation}
+R_{22}\ = 0
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{34}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Ric}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{34}{}
+    
+    $\displaystyle - r e^{f_{1}{\left(r \right)}} \frac{d}{d r} f_{1}{\left(r \right)} - e^{f_{1}{\left(r \right)}} + 1$
+
+    
+
+    \hypertarget{escalar-de-kretschmann}{%
+\subsection{Escalar de Kretschmann}\label{escalar-de-kretschmann}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{indices} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{product}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,} \PY{n}{repeat}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{Kr}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{K} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{for} \PY{n}{m} \PY{o+ow}{in} \PY{n}{indices}\PY{p}{:}
+        \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{indices}\PY{p}{:}
+            \PY{k}{for} \PY{n}{p} \PY{o+ow}{in} \PY{n}{indices}\PY{p}{:} 
+                \PY{k}{for} \PY{n}{q} \PY{o+ow}{in} \PY{n}{indices}\PY{p}{:}
+                    \PY{n}{K} \PY{o}{+}\PY{o}{=} \PY{n}{g}\PY{p}{[}\PY{n}{m}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{m}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]} \PY{o}{*} \PY{n}{gI}\PY{p}{[}\PY{n}{n}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{n}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]} \PY{o}{*} \PY{n}{gI}\PY{p}{[}\PY{n}{p}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{p}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]} \PY{o}{*} \PY{n}{gI}\PY{p}{[}\PY{n}{q}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{q}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]} \PY{o}{*} \PY{n}{Rie}\PY{p}{[}\PY{n}{m}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{n}{n}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{n}{p}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{q}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]} \PY{o}{*} \PY{n}{Rie}\PY{p}{[}\PY{n}{m}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{n}{n}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{[}\PY{n}{p}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{n}{q}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}
+    \PY{n}{K} \PY{o}{=} \PY{n}{K}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{K}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{41}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Kr}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{41}{}
+    
+    $\displaystyle \frac{48 G^{2} M^{2}}{c^{4} r^{6}}$
+
+    
+
+    \hypertarget{soluuxe7uxf5es-de-sitter-schwarzschild}{%
+\section{Soluções De
+Sitter-Schwarzschild}\label{soluuxe7uxf5es-de-sitter-schwarzschild}}
+
+    Com as soluções acima, podemos modificar um pouco nossas hipóteses e
+estudar outras duas soluções muito importantes. A primeira é fundamental
+no estudo da cosmologia: O espaço de Sitter, e outra solução fundamental
+na física teórica atual: o espaço Anti-de Sitter. Em particular, vamos
+derrubar as condições 3) e 4), ou seja, o espaço não é mais
+assimptoticamente plano, e a constante cosmológica não é nula.
+
+Toda a análise que fizemos na seção anterios, e na prática, a única
+modificação será na equação de Einstein
+
+\begin{equation}
+R_{\mu\nu} - \Lambda g_{\mu\nu} = 0 
+\end{equation}
+
+portanto
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Equation} \PY{o}{=} \PY{p}{[}\PY{p}{(}\PY{n}{Ric}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{Lb}\PY{o}{*}\PY{n}{g}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)} \PY{k}{if} \PY{n}{Ric}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{!=} \PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Para ver o resultado explícito, fazemos}
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{Equation}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{+++++++++ Equation(}\PY{l+s+si}{\PYZob{}}\PY{n}{k}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{,}\PY{l+s+si}{\PYZob{}}\PY{n}{k}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) ++++++++++++++++}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{display}\PY{p}{(}\PY{n}{Equation}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
++++++++++ Equation(0,0) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \frac{Lb r e^{f_{1}{\left(r \right)}} + \frac{\left(r \left(\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2} - \frac{d}{d r} f_{1}{\left(r \right)} \frac{d}{d r} f_{2}{\left(r \right)} + 2 \frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}\right) + 4 \frac{d}{d r} f_{1}{\left(r \right)}\right) e^{f_{1}{\left(r \right)} - f_{2}{\left(r \right)}}}{4}}{r}$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Equation(1,1) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle - Lb e^{f_{2}{\left(r \right)}} - \frac{\left(\frac{d}{d r} f_{1}{\left(r \right)}\right)^{2}}{4} + \frac{\frac{d}{d r} f_{1}{\left(r \right)} \frac{d}{d r} f_{2}{\left(r \right)}}{4} - \frac{\frac{d^{2}}{d r^{2}} f_{1}{\left(r \right)}}{2} + \frac{\frac{d}{d r} f_{2}{\left(r \right)}}{r}$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Equation(2,2) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \left(- Lb r^{2} e^{f_{2}{\left(r \right)}} - \frac{r \frac{d}{d r} f_{1}{\left(r \right)}}{2} + \frac{r \frac{d}{d r} f_{2}{\left(r \right)}}{2} + e^{f_{2}{\left(r \right)}} - 1\right) e^{- f_{2}{\left(r \right)}}$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
++++++++++ Equation(3,3) ++++++++++++++++
+    \end{Verbatim}
+
+    $\displaystyle \left(- Lb r^{2} e^{f_{2}{\left(r \right)}} - \frac{r \frac{d}{d r} f_{1}{\left(r \right)}}{2} + \frac{r \frac{d}{d r} f_{2}{\left(r \right)}}{2} + e^{f_{2}{\left(r \right)}} - 1\right) e^{- f_{2}{\left(r \right)}} \sin^{2}{\left(th \right)}$
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \(\clubsuit\) \textbf{1.} Novamente, apenas 3 equações são
+independentes. É simples verificar que \begin{equation}
+(R_{33} - \Lambda g_{33}) - sin^2\theta (R_{2,2} - \Lambda g_{22}) = 0
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{o}{*}\PY{p}{(}\PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{17}{}
+    
+    $\displaystyle 0$
+
+    
+
+    \(\clubsuit\) \textbf{2.} Novamente, as 2 primeiras equações possuem uma
+estrutura muito semelhante, então faremos a operação a seguir
+
+\begin{equation}
+r e^{-f_1+f_2} (R_{00} - \Lambda g_{00}) + r(R_{11} - \Lambda g_{11})  = 0
+\end{equation}
+
+Exatamente como fizemos como no estudo da solução Schwarzschild.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{r}\PY{o}{*}\PY{p}{(}\PY{n}{exp}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{n}{f1}\PY{o}{+}\PY{n}{f2}\PY{p}{)}\PY{o}{*}\PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{+} \PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{18}{}
+    
+    $\displaystyle \frac{d}{d r} f_{1}{\left(r \right)} + \frac{d}{d r} f_{2}{\left(r \right)}$
+
+    
+
+    de onde concluímos que \begin{equation}  
+f_1 + f_2 = c_0 \quad \Rightarrow \quad f_2 = -f_1  
+\end{equation} onde \(c_0\) é uma constante que escolhemos como zero.
+
+    \(\clubsuit\) \textbf{3.} Agora vamos usar essa condição na equação
+\begin{equation}
+R_{22} - \Lambda g_{22} = 0 
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{p}{(}\PY{n}{Equation}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{21}{}
+    
+    $\displaystyle \left(- Lb r^{2} e^{f_{2}{\left(r \right)}} - \frac{r \frac{d}{d r} f_{1}{\left(r \right)}}{2} + \frac{r \frac{d}{d r} f_{2}{\left(r \right)}}{2} + e^{f_{2}{\left(r \right)}} - 1\right) e^{- f_{2}{\left(r \right)}}$
+
+    
+
+    e a solução dessa expressão é dada por
+
+\begin{equation}
+e^{f_1} = 1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}
+\end{equation}
+
+    E essa solução é conhecida como De Sitter-Schwarzschild e a métrica é
+dada por
+
+\begin{equation}
+ds^2 = -\left(1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}\right) c^2 dt^2 + \frac{dr^2}{\left(1 - \frac{2 G M}{c^2 r} - \frac{\Lambda r^2}{3}\right)} + r^2 d\theta^2 + r^2 \sin^2\theta d\phi^2 
+\end{equation}
+
+    O caso particular onde \(M=0\) é chamada de \emph{de Sitter} (dS) (se
+\(\Lambda > 0\)) e \emph{anti-de Sitter} (se \(\Lambda < 0\)). Vamos
+agora finalizar a análise calculando o escalar de curvatura e de
+Kretschmann.
+
+    \(\spadesuit\) \textbf{ESCALAR DE CURVATURA:} No caso da solução de
+Schwarzschild, o escalar de curvatura é trivial pois a tensor de Ricci é
+nulo. Nas soluções de Sitter, devemos analisar esse invariante.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{RCurv}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{curv} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{n}{n} \PY{o}{=} \PY{l+m+mi}{0}
+    \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{rank}\PY{p}{)}\PY{p}{:}
+        \PY{n}{curv} \PY{o}{=} \PY{n}{curv} \PY{o}{+} \PY{n}{gI}\PY{p}{[}\PY{n}{k}\PY{p}{,}\PY{n}{k}\PY{p}{]}\PY{o}{*}\PY{n}{Ric}\PY{p}{[}\PY{n}{k}\PY{p}{,}\PY{n}{k}\PY{p}{]}
+        \PY{n}{r} \PY{o}{=} \PY{n}{curv}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)} 
+    \PY{k}{return} \PY{n}{r}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{RCurv}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{15}{}
+    
+    $\displaystyle 4 Lb$
+
+    
+
+    Ou seja, \(R = 4 \Lambda\) como esperado.
+
+    \(\spadesuit\) \textbf{ESCALAR DE KRETSCHMANN:} Por completeza, podemos
+calcular esse escalar como
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{Kr}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{simplify}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{18}{}
+    
+    $\displaystyle \frac{48 G^{2} M^{2}}{c^{4} r^{6}} + \frac{8 Lb^{2}}{3}$
+
+    
+
+    Veja que ainda continuamos com a singularidade no ponto \(r=0\), mas
+nenhum outro ponto é mal definido. Em particular, observe que o caso
+onde \(M=0\) e \(\Lambda > 0\), temos que a métrica diverge no ponto
+\(r = \sqrt{3 / \lambda}\). Mais uma vez, esse ponto é um artefato da
+métrica. Nesse caso, chamamos a superfície definida por esses pontos de
+horizonte cosmológico.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
