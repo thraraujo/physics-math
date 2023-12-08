@@ -526,6 +526,13 @@ Outro Gauge particularmente útil é
 pois o potencial escalar terá a forma que apendemos a amar no estudo da
 eletrostática.
 
+Finalmente, observe que mesmo quando fixamos um gauge, ainda existem
+redundâncias na escolha das funções \(\alpha\). Por exemplo, suponha que
+fixamos o gauge de Coulomb (2.12) acima. Podemos ainda considerar uma
+transformação de gauge (chamada de restrita)
+\(\vec{A}\mapsto \vec{A} + \nabla \Lambda\) desde que \(\Lambda\) seja
+uma função harmônica, ou seja \(\Delta \Lambda = 0\).
+
 Duas são as conclusões importantes:
 
 \begin{enumerate}
@@ -684,7 +691,7 @@ transformação de coordenadas na forma \[ \tag{3.16.a} t' = t'(t,r) \] de
 forma que
 \[ \tag{3.16.b} dt' = \frac{\partial t'}{\partial t} dt +  \frac{\partial t'}{\partial r} dr \]
 e impomos a condição
-\[ \tag{3.17} g_{tt} c^2 dt^2 + 2 g_{tr} dt dr + g_{rr} dr^2 = G_1 c^2 dt'^2 + G_2 dr^2 \]
+\[ \tag{3.17} g_{tt} c^2 dt^2 + 2 g_{tr} c dt dr + g_{rr} dr^2 = G_1 c^2 dt'^2 + G_2 dr^2 \]
 o que significa que temos 3 ``\emph{condições de gauge}'' que determinam
 as funções \(G_1(t,r)\) e \(G_2(t,r)\)
 \[ \tag{3.18.a} g_{tt} = G_1 \left(\frac{\partial t'}{\partial t} \right)^2  \]
@@ -989,7 +996,7 @@ Tolman--Oppenheimer--Volkoff.
     Os problemas marcados com uma estrela são muito importantes e devem ser
 respondidos.
 
-\textbf{Problema 1.} Usando as coordenadas esféricas
+\(\star\) \textbf{Problema 1.} Usando as coordenadas esféricas
 \[ x_1 = \sin\theta \cos\phi\quad 
 x_2 = \sin\theta \sin\phi\quad  
 x_3 = \cos\theta\] prove que a métrica no espaço Euclidiano em 3D é dada
@@ -1042,9 +1049,9 @@ Usando uma tranformação da forma
 constante \(c_0\) e as funções \(a(\rho)\) e \(b(\rho)\) para a solução
 de Schwarzschild. Onde se encontra o Horizonte de Eventos?
 
-\appendix
-
 \clearpage
+
+\appendix
 
     \hypertarget{resolvendo-a-equauxe7uxe3o-de-einstein-com-o-python}{%
 \section{Resolvendo a Equação de Einstein com o
