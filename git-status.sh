@@ -3,12 +3,14 @@
 # These are my gut repositories
 gitRepos=(
     $HOME/.config/dot-files/
-    $HOME/Documents/lab/fisica-geral/
-    $HOME/Documents/lab/cv-projects-documents/
-    $HOME/Documents/lab/scripts-and-snippets/
-    $HOME/Documents/lab/wiki/
-    $HOME/Documents/lab/work/spectral-curves/
-    $HOME/Documents/lab/work/spin-chains/
+    $HOME/Documents/projects/aulas/
+    $HOME/Documents/projects/cv-projects-documents/
+    $HOME/Documents/projects/fisica-geral/
+    $HOME/Documents/projects/scripts-and-snippets/
+    $HOME/Documents/projects/wiki/
+    $HOME/Documents/projects/work/schur-functions/
+    $HOME/Documents/projects/work/gauge-integrability/
+    $HOME/Documents/projects/work/spectral-curves/
 )
 
 for repo in "${gitRepos[@]}"
