@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# These are my gut repositories
+# These are my git repositories
 gitRepos=(
     $HOME/.config/dot-files/
     $HOME/Documents/projects/aulas/
@@ -11,6 +11,7 @@ gitRepos=(
     $HOME/Documents/projects/work/schur-functions/
     $HOME/Documents/projects/work/gauge-integrability/
     $HOME/Documents/projects/work/spectral-curves/
+    $HOME/Documents/projects/work/pySymmetricPolynomials
 )
 
 for repo in "${gitRepos[@]}"
