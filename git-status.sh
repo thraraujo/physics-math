@@ -11,7 +11,7 @@ gitRepos=(
     $HOME/Documents/projects/work/schur-functions/
     $HOME/Documents/projects/work/gauge-integrability/
     $HOME/Documents/projects/work/spectral-curves/
-    $HOME/Documents/projects/work/pySymmetricPolynomials
+    $HOME/Documents/projects/work/pySymmPol
 )
 
 for repo in "${gitRepos[@]}"
