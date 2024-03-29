@@ -3,15 +3,15 @@
 # These are my git repositories
 gitRepos=(
     $HOME/.config/dot-files/
-    $HOME/Documents/projects/aulas/
-    $HOME/Documents/projects/cv-projects-documents/
-    $HOME/Documents/projects/fisica-geral/
-    $HOME/Documents/projects/scripts-and-snippets/
-    $HOME/Documents/projects/wiki/
-    $HOME/Documents/projects/work/schur-functions/
-    $HOME/Documents/projects/work/gauge-integrability/
-    $HOME/Documents/projects/work/spectral-curves/
-    $HOME/Documents/projects/work/pySymmPol
+    $HOME/Sync/projects/aulas/
+    $HOME/Sync/projects/cv-projects-documents/
+    $HOME/Sync/projects/fisica-geral/
+    $HOME/Sync/projects/scripts-and-snippets/
+    $HOME/Sync/projects/wiki/
+    $HOME/Sync/projects/work/schur-functions/
+    $HOME/Sync/projects/work/gauge-integrability/
+    $HOME/Sync/projects/work/spectral-curves/
+    $HOME/Sync/projects/work/pySymmPol
 )
 
 for repo in "${gitRepos[@]}"
