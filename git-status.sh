@@ -8,7 +8,8 @@ gitRepos=(
     $HOME/Sync/projects/fisica-geral/
     $HOME/Sync/projects/scripts-and-snippets/
     $HOME/Sync/projects/wiki/
-    $HOME/Sync/projects/work/schur-functions/
+    $HOME/Sync/projects/work/research-reviews/
+    $HOME/Sync/projects/work/q-bosons/
     $HOME/Sync/projects/work/gauge-integrability/
     $HOME/Sync/projects/work/spectral-curves/
     $HOME/Sync/projects/work/pySymmPol
@@ -18,6 +19,3 @@ for repo in "${gitRepos[@]}"
 do
     test -n "$(git -C $repo status --porcelain)" && echo ">> MODIFIED :: $repo" #|| echo "<< NOTHING :: $repo"
 done
-
-   
-
