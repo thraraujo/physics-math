@@ -5,7 +5,6 @@ gitRepos=(
     $HOME/.config/dot-files/
     $HOME/Sync/projects/aulas/
     $HOME/Sync/projects/cv-projects-documents/
-    $HOME/Sync/projects/fisica-geral/
     $HOME/Sync/projects/scripts-and-snippets/
     $HOME/Sync/projects/wiki/
     $HOME/Sync/projects/work/research-reviews/
