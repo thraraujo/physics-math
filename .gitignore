@@ -1,3 +1,4 @@
+*pycache*
 .ipynb_checkpoints
 *.pdf 
 *.html
@@ -5,3 +6,4 @@
 *.log
 *.toc
 *.out
+*media/
